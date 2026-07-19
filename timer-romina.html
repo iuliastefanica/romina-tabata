@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Timer-ul Perfect pentru Intervale cu Romina</title>
+    <!-- Permite rularea ca aplicație web pe iOS și Android -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        /* Resetări pentru ecrane tactile */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Scoate chenarul albastru la atingere pe mobil */
+            touch-action: manipulation; /* Îmbunătățește răspunsul la click pe mobil */
+        }
+
+        body { 
+            text-align: center; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background: #121212; 
+            color: white; 
+            padding: 15px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 { 
+            color: #00ffcc; 
+            font-size: 24px; 
+            margin-top: 10px;
+            margin-bottom: 20px; 
+            text-transform: uppercase;
+        }
+
+        .page {
+            background: #1e1e1e; 
+            padding: 25px 20px; 
+            border-radius: 20px; 
+            width: 100%;
+            max-width: 380px; 
+            margin: 0 auto; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: border 0.3s ease;
+        }
+
+        #page-timer { display: none; }
+
+        /* Pagina de Setări */
+        .setting-field { 
+            margin-bottom: 18px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .setting-field label { font-size: 16px; color: #ccc; text-align: left; padding-right: 10px; }
+        .setting-field input { 
+            width: 80px; 
+            padding: 12px 5px; /* Input-uri mai mari, mai ușor de selectat */
+            text-align: center; 
+            font-size: 18px; 
+            border-radius: 10px; 
+            border: 1px solid #333; 
+            background: #2a2a2a; 
+            color: white; 
+            font-weight: bold;
+        }
+
+        /* Pagina cu Timerul */
+        #status { 
+            font-size: 26px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            margin-bottom: 15px; 
+            letter-spacing: 1px;
+        }
+        #timer { 
+            font-size: 85px; 
+            font-weight: bold; 
+            color: #00ffcc; 
+            margin: 15px 0;
+            font-family: monospace;
+            line-height: 1;
+        }
+        #info { 
+            font-size: 18px; 
+            color: #aaa; 
+            margin-bottom: 25px;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Butoane optimizate pentru degete pe mobil */
+        button { 
+            font-size: 18px; 
+            padding: 16px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            transition: transform 0.1s ease, background 0.2s;
+        }
+        
+        button:active {
+            transform: scale(0.97); /* Efect vizual la apăsare pe ecran tactil */
+        }
+
+        .btn-start { background: #00ffcc; color: #111; width: 100%; }
+        .btn-pause { background: #ffbb00; color: #111; flex: 1; }
+        .btn-stop { background: #ff4444; color: white; flex: 1; }
+    </style>
+</head>
+<body>
+
+    <h1>TIMER-UL PERFECT PENTRU INTERVALE CU ROMINA</h1>
+
+    <div id="page-settings" class="page">
+        <h2 style="margin-top:0; font-size: 20px; color: #aaa;">⚙️ Configurare</h2>
+        
+        <div class="setting-field">
+            <label>Cicluri totale:</label>
+            <input type="number" id="inputCicluri" value="3" min="1" inputmode="numeric">
+        </div>
+        <div class="setting-field">
+            <label>Runde per ciclu:</label>
+            <input type="number" id="inputRunde" value="4" min="1" inputmode="numeric">
+        </div>
+        <div class="setting-field">
+            <label>Workout (secunde):</label>
+            <input type="number" id="inputWorkout" value="30" min="5" inputmode="numeric">
+        </div>
+        <div class="setting-field">
+            <label>Rest / Odihnă (sec):</label>
+            <input type="number" id="inputRest" value="10" min="0" inputmode="numeric">
+        </div>
+        <div class="setting-field">
+            <label>Recovery / Pauză Ciclu (sec):</label>
+            <input type="number" id="inputRecovery" value="60" min="0" inputmode="numeric">
+        </div>
+
+        <button class="btn-start" onclick="comutaLaTimer()">START ANTRENAMENT</button>
+    </div>
+
+    <div id="page-timer" class="page">
+        <div id="status">Pregătește-te</div>
+        <div id="timer">00</div>
+        <div id="info">Ciclu: 1/3 | Rundă: 1/4</div>
+        
+        <div class="buttons-row">
+            <button id="btn-pauza" class="btn-pause" onclick="toglePauza()">PAUZĂ</button>
+            <button class="btn-stop" onclick="opresteSiRevino()">STOP</button>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let setari = {};
+        
+        let stareCurentă = ""; 
+        let timpRamas = 0;
+        let cicluCurent = 1;
+        let rundaCurenta = 1;
+        let esteInPauza = false;
+
+        let audioCtx = null;
+        let wakeLock = null; // Menține ecranul aprins
+
+        // Funcție care cere sistemului de operare să NU stingă ecranul
+        async function activeazaWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (err) {
+                console.log(`Eroare Wake Lock: ${err.message}`);
+            }
+        }
+
+        // Eliberează blocarea ecranului când timerul este oprit
+        function dezactiveazaWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+        }
+
+        function redaSunet(frecventa = 600, durata = 0.1) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                let oscillator = audioCtx.createOscillator();
+                let gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.value = frecventa;
+                
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); 
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + durata);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + durata);
+            } catch (e) {
+                console.log("Sunetul nu a putut fi redat: ", e);
+            }
+        }
+
+        function comutaLaTimer() {
+            // Activăm protecția ecranului aprins
+            activeazaWakeLock();
+
+            setari = {
+                cicluri: parseInt(document.getElementById("inputCicluri").value),
+                runde: parseInt(document.getElementById("inputRunde").value),
+                workout: parseInt(document.getElementById("inputWorkout").value),
+                rest: parseInt(document.getElementById("inputRest").value),
+                recovery: parseInt(document.getElementById("inputRecovery").value)
+            };
+
+            document.getElementById("page-settings").style.display = "none";
+            document.getElementById("page-timer").style.display = "block";
+
+            esteInPauza = false;
+            document.getElementById("btn-pauza").innerText = "PAUZĂ";
+            document.getElementById("btn-pauza").style.background = "#ffbb00";
+
+            cicluCurent = 1;
+            rundaCurenta = 1;
+
+            pornesteStare("WORK", setari.workout);
+            timerInterval = setInterval(ruleazaCronometru, 1000);
+        }
+
+        function toglePauza() {
+            esteInPauza = !esteInPauza; 
+            const btnPauza = document.getElementById("btn-pauza");
+            
+            if (esteInPauza) {
+                dezactiveazaWakeLock(); // În pauză ecranul se poate stinge normal
+                btnPauza.innerText = "REIA";
+                btnPauza.style.background = "#00ffcc"; 
+                document.getElementById("status").innerText = "⏸️ PAUZĂ";
+            } else {
+                activeazaWakeLock(); // Reluăm protecția ecranului
+                btnPauza.innerText = "PAUZĂ";
+                btnPauza.style.background = "#ffbb00";
+                if (stareCurentă === "WORK") document.getElementById("status").innerText = "💪 LUCRU!";
+                if (stareCurentă === "REST") document.getElementById("status").innerText = "🛑 ODIHNĂ";
+                if (stareCurentă === "RECOVERY") document.getElementById("status").innerText = "🥤 RECOVERY CICLU";
+            }
+        }
+
+        function opresteSiRevino() {
+            clearInterval(timerInterval);
+            dezactiveazaWakeLock();
+            document.getElementById("page-timer").style.display = "none";
+            document.getElementById("page-settings").style.display = "block";
+        }
+
+        function pornesteStare(stare, timp) {
+            stareCurentă = stare;
+            timpRamas = timp;
+            
+            const statusEl = document.getElementById("status");
+            const timerEl = document.getElementById("timer");
+            const pageEl = document.getElementById("page-timer");
+
+            if (!esteInPauza) {
+                if (stare === "WORK") {
+                    statusEl.innerText = "💪 LUCRU!";
+                    timerEl.style.color = "#00ffcc";
+                    pageEl.style.border = "3px solid #00ffcc";
+                } else if (stare === "REST") {
+                    statusEl.innerText = "🛑 ODIHNĂ";
+                    timerEl.style.color = "#ffbb00";
+                    pageEl.style.border = "3px solid #ffbb00";
+                } else if (stare === "RECOVERY") {
+                    statusEl.innerText = "🥤 RECOVERY CICLU";
+                    timerEl.style.color = "#ff4444";
+                    pageEl.style.border = "3px solid #ff4444";
+                }
+            }
+
+            actualizeazaInterfata();
+        }
+
+        function ruleazaCronometru() {
+            if (esteInPauza) return; 
+
+            if (timpRamas > 0) {
+                timpRamas--;
+                actualizeazaInterfata();
+                
+                if (timpRamas <= 5 && timpRamas > 0) {
+                    redaSunet(600, 0.15);
+                }
+            } else {
+                redaSunet(800, 0.4); 
+                schimbaStarea();
+            }
+        }
+
+        function schimbaStarea() {
+            if (stareCurentă === "WORK") {
+                if (rundaCurenta < setari.runde) {
+                    pornesteStare("REST", setari.rest);
+                } else {
+                    if (cicluCurent < setari.cicluri) {
+                        pornesteStare("RECOVERY", setari.recovery);
+                    } else {
+                        terminaAntrenament();
+                    }
+                }
+            } 
+            else if (stareCurentă === "REST") {
+                rundaCurenta++;
+                pornesteStare("WORK", setari.workout);
+            } 
+            else if (stareCurentă === "RECOVERY") {
+                cicluCurent++;
+                rundaCurenta = 1;
+                pornesteStare("WORK", setari.workout);
+            }
+        }
+
+        function actualizeazaInterfata() {
+            document.getElementById("timer").innerText = timpRamas < 10 ? "0" + timpRamas : timpRamas;
+            document.getElementById("info").innerText = `Ciclu: ${cicluCurent}/${setari.cicluri} | Rundă: ${rundaCurenta}/${setari.runde}`;
+        }
+
+        function terminaAntrenament() {
+            clearInterval(timerInterval);
+            dezactiveazaWakeLock();
+            redaSunet(1000, 0.8);
+            document.getElementById("status").innerText = "🎉 CONFETI! GATA!";
+            document.getElementById("timer").innerText = "00";
+            document.getElementById("timer").style.color = "#ffffff";
+            document.getElementById("page-timer").style.border = "3px solid #ffffff";
+        }
+
+        // Dacă utilizatorul iese temporar din browser și revine, re-activăm Wake Lock-ul dacă timerul mergea
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible' && !esteInPauza && stareCurentă !== "") {
+                await activeazaWakeLock();
+            }
+        });
+    </script>
+</body>
+</html>
