@@ -385,7 +385,7 @@
                 oscillator.type = 'sine'; 
                 oscillator.frequency.value = frecventa;
                 
-                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); 
+                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); 
                 gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + ScriptDurata);
 
                 oscillator.connect(gainNode);
