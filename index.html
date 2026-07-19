@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Timer-ul Perfect pentru Intervale cu Romina</title>
-	<!-- Pentru iPhone / iOS -->
-	<link rel="apple-touch-icon" href="icon.png?v=2">
-	<!-- Pentru Android / Chrome -->
-	<link rel="icon" type="image/png" href="icon.png?v=2" sizes="192x192">
     <!-- Permite rularea ca aplicație web pe iOS și Android -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Iconițe personalizate cu versiune pentru cache -->
+    <link class="apple-touch-icon" href="icon.png?v=9">
+    <link rel="icon" type="image/png" href="icon.png?v=9" sizes="192x192">
+    
+    <!-- Conectare Google Fonts pentru fonturile Bebas Neue și Archivo (weight 100, 300, 400, 700) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
     <style>
-        /* Resetări pentru ecrane tactile */
+        /* Resetări globale */
         * {
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Scoate chenarul albastru la atingere pe mobil */
-            touch-action: manipulation; /* Îmbunătățește răspunsul la click pe mobil */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         body { 
@@ -24,115 +30,224 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             background: #121212; 
             color: white; 
-            padding: 15px; 
+            padding: 0; 
             margin: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
 
         h1 { 
-            color: #00ffcc; 
+            color: #e82d74; 
             font-size: 24px; 
-            margin-top: 10px;
-            margin-bottom: 20px; 
+            margin-top: 0;
+            margin-bottom: 25px; 
             text-transform: uppercase;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300; /* Archivo Thin / Light 300 */
         }
 
-        .page {
-            background: #1e1e1e; 
-            padding: 25px 20px; 
-            border-radius: 20px; 
-            width: 100%;
+        /* Pagina de Setări - Fundal eliminat, elementele stau direct pe negru */
+        #page-settings {
+            padding: 20px; 
+            width: 90%;
             max-width: 380px; 
-            margin: 0 auto; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transition: border 0.3s ease;
+            display: block;
         }
 
-        #page-timer { display: none; }
-
-        /* Pagina de Setări */
         .setting-field { 
-            margin-bottom: 18px; 
+            margin-bottom: 12px; /* Redus de la 18px pentru compactare */
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
-        .setting-field label { font-size: 16px; color: #ccc; text-align: left; padding-right: 10px; }
+        .setting-field label { 
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300; /* Archivo Light */
+            font-size: 16px; 
+            color: #ccc; 
+            text-align: left; 
+            padding-right: 10px; 
+        }
         .setting-field input { 
             width: 80px; 
-            padding: 12px 5px; /* Input-uri mai mari, mai ușor de selectat */
+            padding: 12px 5px; 
             text-align: center; 
             font-size: 18px; 
             border-radius: 10px; 
             border: 1px solid #333; 
             background: #2a2a2a; 
             color: white; 
-            font-weight: bold;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700; /* Cifre cu Archivo 700 */
         }
 
-        /* Pagina cu Timerul */
+        /* Pagina completă a Timerului (Layout ecran complet) */
+        #page-timer { 
+            display: none; 
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            background: #121212;
+            transition: background 0.3s ease;
+        }
+
+        /* Containerul pentru Status (Stare + Subtitlu Pauză) */
+        .status-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-height: 80px; 
+        }
+
+        /* Partea de sus */
         #status { 
-            font-size: 26px; 
-            font-weight: bold; 
+            font-family: 'Archivo', sans-serif;
+            font-weight: 100; /* Archivo Thin */
+            font-size: 42px; 
             text-transform: uppercase; 
-            margin-bottom: 15px; 
-            letter-spacing: 1px;
+        }
+
+        /* Stil pentru textul secundar de PAUZĂ */
+        #sub-status {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300; /* Archivo Light */
+            font-size: 20px;
+            color: #ffffff;
+            text-transform: uppercase;
+            visibility: hidden; 
+        }
+
+        /* Partea de mijloc (Cronometrul uriaș în Bebas Neue) */
+        .timer-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
         #timer { 
-            font-size: 85px; 
-            font-weight: bold; 
-            color: #00ffcc; 
-            margin: 15px 0;
-            font-family: monospace;
-            line-height: 1;
+            font-size: 35vw; 
+            max-font-size: 170px;
+            font-weight: normal; 
+            color: #e82d74; 
+            font-family: 'Bebas Neue', sans-serif;
+            line-height: 0.9;
         }
-        #info { 
-            font-size: 18px; 
-            color: #aaa; 
+
+        /* Zona de jos */
+        .bottom-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        /* Layout pe 3 coloane pentru statistici */
+        .stats-row {
+            width: 100%;
             margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stat-box {
+            display: inline-block;
+            width: 32%;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300; /* Archivo Light */
+            font-size: 13px;
+            color: #aaa;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px; 
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: white;
+            display: block;
+            line-height: 1;
         }
 
         .buttons-row {
             display: flex;
-            gap: 12px;
+            gap: 15px;
+            width: 100%;
         }
 
-        /* Butoane optimizate pentru degete pe mobil */
+        /* Butoane - capete complet rotunde (50px) cu Archivo Light */
         button { 
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300; /* Archivo Light */
             font-size: 18px; 
-            padding: 16px; 
+            padding: 18px; 
             cursor: pointer; 
             border: none; 
-            border-radius: 12px; 
-            font-weight: bold; 
+            border-radius: 50px; 
             transition: transform 0.1s ease, background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Spațiul dintre iconiță și text */
         }
         
         button:active {
-            transform: scale(0.97); /* Efect vizual la apăsare pe ecran tactil */
+            transform: scale(0.96);
         }
 
-        .btn-start { background: #00ffcc; color: #111; width: 100%; }
-        .btn-pause { background: #ffbb00; color: #111; flex: 1; }
-        .btn-stop { background: #ff4444; color: white; flex: 1; }
+        .btn-start { 
+            background: #e82d74; 
+            color: white; 
+            width: 100%; 
+            font-weight: 400; 
+            margin-top: 28px; /* Spațiu mai mare doar înainte de butonul Start */
+        }
+        
+        .btn-pause, .btn-stop { 
+            background: #1e1e1e; 
+            color: white; 
+            flex: 1; 
+            transition: background 0.2s, color 0.2s, transform 0.1s ease; 
+        }
+        
+        /* Asigură că SVG-ul își modifică culoarea automat odată cu textul din buton */
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
 
-    <h1>TIMER-UL PERFECT PENTRU INTERVALE CU ROMINA</h1>
-
-    <div id="page-settings" class="page">
-        <h2 style="margin-top:0; font-size: 20px; color: #aaa;">⚙️ Configurare</h2>
+    <!-- PAGINA DE SETĂRI -->
+    <div id="page-settings">
+        <h1>ROMINA'S<br/>TABATA SIMPLU ȘI FĂRĂ RECLAME</h1>
         
+        <div class="setting-field">
+            <label>Pregătire (secunde):</label>
+            <input type="number" id="inputPregatire" value="7" min="0" inputmode="numeric">
+        </div>
         <div class="setting-field">
             <label>Cicluri totale:</label>
             <input type="number" id="inputCicluri" value="3" min="1" inputmode="numeric">
         </div>
         <div class="setting-field">
-            <label>Runde per ciclu:</label>
+            <label>Exerciții per ciclu:</label>
             <input type="number" id="inputRunde" value="4" min="1" inputmode="numeric">
         </div>
         <div class="setting-field">
@@ -148,17 +263,60 @@
             <input type="number" id="inputRecovery" value="60" min="0" inputmode="numeric">
         </div>
 
-        <button class="btn-start" onclick="comutaLaTimer()">START ANTRENAMENT</button>
+        <button class="btn-start" onclick="comutaLaTimer()">
+            <svg class="btn-icon" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>START ANTRENAMENT</span>
+        </button>
     </div>
 
-    <div id="page-timer" class="page">
-        <div id="status">Pregătește-te</div>
-        <div id="timer">00</div>
-        <div id="info">Ciclu: 1/3 | Rundă: 1/4</div>
+    <!-- PAGINA CU TIMERUL -->
+    <div id="page-timer">
+        <!-- Partea de Sus -->
+        <div class="status-container">
+            <div id="status">PREGĂTEȘTE-TE</div>
+            <div id="sub-status">PAUZĂ</div>
+        </div>
         
-        <div class="buttons-row">
-            <button id="btn-pauza" class="btn-pause" onclick="toglePauza()">PAUZĂ</button>
-            <button class="btn-stop" onclick="opresteSiRevino()">STOP</button>
+        <!-- Partea de Mijloc -->
+        <div class="timer-container">
+            <div id="timer">00:00</div>
+        </div>
+        
+        <!-- Partea de Jos -->
+        <div class="bottom-container">
+            
+            <!-- Layout pentru Statistici -->
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Ciclu</span>
+                    <span id="stat-ciclu" class="stat-value">1/3</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Exercițiu</span>
+                    <span id="stat-exercitiu" class="stat-value">1/4</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Timp Total</span>
+                    <span id="stat-total" class="stat-value">00:00</span>
+                </div>
+            </div>
+            
+            <div class="buttons-row">
+                <button id="btn-pauza" class="btn-pause" onclick="toglePauza()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" id="icon-pauza-stare">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    <span id="text-pauza">PAUZĂ</span>
+                </button>
+                <button id="btn-stop" class="btn-stop" onclick="opresteSiRevino()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" id="icon-stop-stare">
+                        <path d="M6 6h12v12H6z"/>
+                    </svg>
+                    <span id="text-stop">STOP</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -171,11 +329,18 @@
         let cicluCurent = 1;
         let rundaCurenta = 1;
         let esteInPauza = false;
+        let timpTotalRamas = 0;
+        let antrenamentTerminat = false;
 
         let audioCtx = null;
-        let wakeLock = null; // Menține ecranul aprins
+        let wakeLock = null;
 
-        // Funcție care cere sistemului de operare să NU stingă ecranul
+        // Căile vectoriale SVG utilizate dinamic
+        const SVG_PLAY = "M8 5v14l11-7z";
+        const SVG_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
+        const SVG_STOP = "M6 6h12v12H6z";
+        const SVG_SETTINGS = "M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z";
+
         async function activeazaWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
@@ -186,7 +351,6 @@
             }
         }
 
-        // Eliberează blocarea ecranului când timerul este oprit
         function dezactiveazaWakeLock() {
             if (wakeLock !== null) {
                 wakeLock.release();
@@ -194,7 +358,7 @@
             }
         }
 
-        function redaSunet(frecventa = 600, durata = 0.1) {
+        function redaSunet(frecventa = 800, ScriptDurata = 0.15) {
             try {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -206,27 +370,44 @@
                 let oscillator = audioCtx.createOscillator();
                 let gainNode = audioCtx.createGain();
 
-                oscillator.type = 'sine';
+                oscillator.type = 'sine'; 
                 oscillator.frequency.value = frecventa;
                 
                 gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); 
-                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + durata);
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + ScriptDurata);
 
                 oscillator.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
 
                 oscillator.start();
-                oscillator.stop(audioCtx.currentTime + durata);
+                oscillator.stop(audioCtx.currentTime + ScriptDurata);
             } catch (e) {
                 console.log("Sunetul nu a putut fi redat: ", e);
             }
         }
 
+        function calculeazaTimpTotalInitial() {
+            let total = setari.pregatire;
+            
+            for (let c = 1; c <= setari.cicluri; c++) {
+                for (let r = 1; r <= setari.runde; r++) {
+                    total += setari.workout;
+                    if (r < setari.runde) {
+                        total += setari.rest;
+                    }
+                }
+                if (c < setari.cicluri) {
+                    total += setari.recovery;
+                }
+            }
+            return total;
+        }
+
         function comutaLaTimer() {
-            // Activăm protecția ecranului aprins
             activeazaWakeLock();
 
             setari = {
+                pregatire: parseInt(document.getElementById("inputPregatire").value) || 0,
                 cicluri: parseInt(document.getElementById("inputCicluri").value),
                 runde: parseInt(document.getElementById("inputRunde").value),
                 workout: parseInt(document.getElementById("inputWorkout").value),
@@ -234,44 +415,110 @@
                 recovery: parseInt(document.getElementById("inputRecovery").value)
             };
 
+            timpTotalRamas = calculeazaTimpTotalInitial();
+
             document.getElementById("page-settings").style.display = "none";
-            document.getElementById("page-timer").style.display = "block";
+            document.getElementById("page-timer").style.display = "flex";
+
+            // Resetare funcționalitate și interfață butoane
+            antrenamentTerminat = false;
+            const btnPauza = document.getElementById("btn-pauza");
+            const btnStop = document.getElementById("btn-stop");
+            
+            btnPauza.setAttribute("onclick", "toglePauza()");
+            btnStop.setAttribute("onclick", "opresteSiRevino()");
 
             esteInPauza = false;
-            document.getElementById("btn-pauza").innerText = "PAUZĂ";
-            document.getElementById("btn-pauza").style.background = "#ffbb00";
+            
+            document.getElementById("text-pauza").innerText = "PAUZĂ";
+            document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PAUSE);
+            btnPauza.style.background = "#1e1e1e";
+            btnPauza.style.color = "white";
+            
+            document.getElementById("text-stop").innerText = "STOP";
+            document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_STOP);
+            btnStop.style.background = "#1e1e1e";
+            btnStop.style.color = "white";
+
+            document.getElementById("sub-status").style.visibility = "hidden";
 
             cicluCurent = 1;
             rundaCurenta = 1;
 
-            pornesteStare("WORK", setari.workout);
+            if (setari.pregatire > 0) {
+                pornesteStare("PREPARE", setari.pregatire);
+            } else {
+                pornesteStare("WORK", setari.workout);
+            }
+            
+            if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(ruleazaCronometru, 1000);
         }
 
         function toglePauza() {
+            if (antrenamentTerminat) return;
+
             esteInPauza = !esteInPauza; 
             const btnPauza = document.getElementById("btn-pauza");
+            const subStatusEl = document.getElementById("sub-status");
+            const statusEl = document.getElementById("status");
+            const iconPath = document.getElementById("icon-pauza-stare").querySelector("path");
             
             if (esteInPauza) {
-                dezactiveazaWakeLock(); // În pauză ecranul se poate stinge normal
-                btnPauza.innerText = "REIA";
-                btnPauza.style.background = "#00ffcc"; 
-                document.getElementById("status").innerText = "⏸️ PAUZĂ";
+                dezactiveazaWakeLock();
+                document.getElementById("text-pauza").innerText = "REIA";
+                iconPath.setAttribute("d", SVG_PLAY);
+                
+                if (stareCurentă === "WORK") {
+                    btnPauza.style.background = "#e82d74"; 
+                    btnPauza.style.color = "#ffffff";      
+                } else if (stareCurentă === "REST") {
+                    btnPauza.style.background = "#a6d100"; 
+                    btnPauza.style.color = "#000000";      
+                } else if (stareCurentă === "RECOVERY") {
+                    btnPauza.style.background = "#3598db"; 
+                    btnPauza.style.color = "#ffffff";      
+                } else if (stareCurentă === "PREPARE") {
+                    btnPauza.style.background = "#ffffff"; 
+                    btnPauza.style.color = "#000000";      
+                }
+                
+                subStatusEl.style.visibility = "visible";
             } else {
-                activeazaWakeLock(); // Reluăm protecția ecranului
-                btnPauza.innerText = "PAUZĂ";
-                btnPauza.style.background = "#ffbb00";
-                if (stareCurentă === "WORK") document.getElementById("status").innerText = "💪 LUCRU!";
-                if (stareCurentă === "REST") document.getElementById("status").innerText = "🛑 ODIHNĂ";
-                if (stareCurentă === "RECOVERY") document.getElementById("status").innerText = "🥤 RECOVERY CICLU";
+                activeazaWakeLock();
+                document.getElementById("text-pauza").innerText = "PAUZĂ";
+                iconPath.setAttribute("d", SVG_PAUSE);
+                btnPauza.style.background = "#1e1e1e"; 
+                btnPauza.style.color = "white"; 
+                
+                subStatusEl.style.visibility = "hidden";
+
+                if (stareCurentă === "PREPARE") {
+                    statusEl.innerText = "PREGĂTEȘTE-TE";
+                    statusEl.style.color = "#ffffff";
+                }
+                if (stareCurentă === "WORK") {
+                    statusEl.innerText = "EXERCISE";
+                    statusEl.style.color = "#e82d74";
+                }
+                if (stareCurentă === "REST") {
+                    statusEl.innerText = "REST";
+                    statusEl.style.color = "#a6d100";
+                }
+                if (stareCurentă === "RECOVERY") {
+                    statusEl.innerText = "RECOVERY";
+                    statusEl.style.color = "#3598db";
+                }
             }
         }
 
         function opresteSiRevino() {
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
+            document.getElementById("sub-status").style.visibility = "hidden";
             document.getElementById("page-timer").style.display = "none";
             document.getElementById("page-settings").style.display = "block";
+            document.body.style.background = "#121212";
         }
 
         function pornesteStare(stare, timp) {
@@ -280,21 +527,29 @@
             
             const statusEl = document.getElementById("status");
             const timerEl = document.getElementById("timer");
-            const pageEl = document.getElementById("page-timer");
+            const bodyEl = document.body;
 
             if (!esteInPauza) {
-                if (stare === "WORK") {
-                    statusEl.innerText = "💪 LUCRU!";
-                    timerEl.style.color = "#00ffcc";
-                    pageEl.style.border = "3px solid #00ffcc";
+                if (stare === "PREPARE") {
+                    statusEl.innerText = "PREGĂTEȘTE-TE";
+                    statusEl.style.color = "#ffffff";
+                    timerEl.style.color = "#ffffff";
+                    bodyEl.style.background = "#121212";
+                } else if (stare === "WORK") {
+                    statusEl.innerText = "EXERCISE";
+                    statusEl.style.color = "#e82d74";
+                    timerEl.style.color = "#e82d74";
+                    bodyEl.style.background = "#121212";
                 } else if (stare === "REST") {
-                    statusEl.innerText = "🛑 ODIHNĂ";
-                    timerEl.style.color = "#ffbb00";
-                    pageEl.style.border = "3px solid #ffbb00";
+                    statusEl.innerText = "REST";
+                    statusEl.style.color = "#a6d100";
+                    timerEl.style.color = "#a6d100";
+                    bodyEl.style.background = "#131610";
                 } else if (stare === "RECOVERY") {
-                    statusEl.innerText = "🥤 RECOVERY CICLU";
-                    timerEl.style.color = "#ff4444";
-                    pageEl.style.border = "3px solid #ff4444";
+                    statusEl.innerText = "RECOVERY";
+                    statusEl.style.color = "#3598db";
+                    timerEl.style.color = "#3598db";
+                    bodyEl.style.background = "#101316";
                 }
             }
 
@@ -304,21 +559,28 @@
         function ruleazaCronometru() {
             if (esteInPauza) return; 
 
-            if (timpRamas > 0) {
+            if (timpTotalRamas > 0) {
+                timpTotalRamas--;
+            }
+
+            if (timpRamas > 1) {
                 timpRamas--;
                 actualizeazaInterfata();
                 
-                if (timpRamas <= 5 && timpRamas > 0) {
-                    redaSunet(600, 0.15);
+                if (timpRamas <= 3) {
+                    redaSunet(600, 0.1);
                 }
             } else {
-                redaSunet(800, 0.4); 
+                redaSunet(900, 0.4); 
                 schimbaStarea();
             }
         }
 
         function schimbaStarea() {
-            if (stareCurentă === "WORK") {
+            if (stareCurentă === "PREPARE") {
+                pornesteStare("WORK", setari.workout);
+            }
+            else if (stareCurentă === "WORK") {
                 if (rundaCurenta < setari.runde) {
                     pornesteStare("REST", setari.rest);
                 } else {
@@ -341,21 +603,57 @@
         }
 
         function actualizeazaInterfata() {
-            document.getElementById("timer").innerText = timpRamas < 10 ? "0" + timpRamas : timpRamas;
-            document.getElementById("info").innerText = `Ciclu: ${cicluCurent}/${setari.cicluri} | Rundă: ${rundaCurenta}/${setari.runde}`;
+            let minute = Math.floor(timpRamas / 60);
+            let secunde = timpRamas % 60;
+            let formatMinute = minute < 10 ? "0" + minute : minute;
+            let formatSecunde = secunde < 10 ? "0" + secunde : secunde;
+            document.getElementById("timer").innerText = `${formatMinute}:${formatSecunde}`;
+            
+            let tMinute = Math.floor(timpTotalRamas / 60);
+            let tSecunde = timpTotalRamas % 60;
+            let formatTMinute = tMinute < 10 ? "0" + tMinute : tMinute;
+            let formatTSecunde = tSecunde < 10 ? "0" + tSecunde : tSecunde;
+            document.getElementById("stat-total").innerText = `${formatTMinute}:${formatTSecunde}`;
+
+            document.getElementById("stat-ciclu").innerText = `${cicluCurent}/${setari.cicluri}`;
+            document.getElementById("stat-exercitiu").innerText = `${rundaCurenta}/${setari.runde}`;
         }
 
         function terminaAntrenament() {
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
-            redaSunet(1000, 0.8);
-            document.getElementById("status").innerText = "🎉 CONFETI! GATA!";
-            document.getElementById("timer").innerText = "00";
+            
+            redaSunet(1200, 0.6);
+
+            antrenamentTerminat = true;
+            timpTotalRamas = 0;
+            document.getElementById("stat-total").innerText = "00:00";
+            
+            document.getElementById("status").innerText = "VICTORIE!";
+            document.getElementById("status").style.color = "#ffffff";
+            document.getElementById("sub-status").style.visibility = "hidden";
+            
+            document.getElementById("timer").innerText = "00:00";
             document.getElementById("timer").style.color = "#ffffff";
-            document.getElementById("page-timer").style.border = "3px solid #ffffff";
+            document.body.style.background = "#121212";
+
+            const btnPauza = document.getElementById("btn-pauza");
+            const btnStop = document.getElementById("btn-stop");
+
+            // Schimbare text și iconițe pentru starea finală
+            document.getElementById("text-pauza").innerText = "RESTART";
+            document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PLAY);
+            btnPauza.setAttribute("onclick", "comutaLaTimer()");
+            btnPauza.style.background = "#e82d74"; 
+            btnPauza.style.color = "#ffffff";
+
+            document.getElementById("text-stop").innerText = "SETĂRI";
+            document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_SETTINGS);
+            btnStop.setAttribute("onclick", "opresteSiRevino()");
+            btnStop.style.background = "#1e1e1e";
+            btnStop.style.color = "#ffffff";
         }
 
-        // Dacă utilizatorul iese temporar din browser și revine, re-activăm Wake Lock-ul dacă timerul mergea
         document.addEventListener('visibilitychange', async () => {
             if (wakeLock !== null && document.visibilityState === 'visible' && !esteInPauza && stareCurentă !== "") {
                 await activeazaWakeLock();
