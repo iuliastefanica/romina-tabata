@@ -139,8 +139,7 @@
             width: 100%;
         }
         #timer { 
-            font-size: 35vw; 
-            max-font-size: 160px;
+            font-size: 40vw; 
             font-weight: normal; 
             color: #e82d74; 
             font-family: 'Bebas Neue', sans-serif;
@@ -175,12 +174,12 @@
             color: #aaa;
             text-transform: uppercase;
             display: block;
-            margin-bottom: 4px; 
+            margin-bottom: 8px; /* Spațiere mărită conform cerinței */
         }
 
         .stat-value {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
+            font-size: 42px;
             color: white;
             display: block;
             line-height: 1;
@@ -513,7 +512,7 @@
                     statusEl.innerText = "REST";
                     statusEl.style.color = "#a6d100";
                 }
-                if (stareCurentURL === "RECOVERY") {
+                if (stareCurentă === "RECOVERY") {
                     statusEl.innerText = "RECOVERY";
                     statusEl.style.color = "#3598db";
                 }
