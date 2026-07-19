@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Romina's Tabata Simplu și Fără Reclame</title>
+    <title>Timer-ul Perfect pentru Intervale cu Romina</title>
     <!-- Permite rularea ca aplicație web pe iOS și Android -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -56,6 +56,7 @@
             width: 90%;
             max-width: 380px; 
             display: block;
+            box-sizing: border-box;
         }
 
         .setting-field { 
@@ -149,6 +150,7 @@
             width: 100%;
             max-width: 400px;
             margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         /* Layout pe 3 coloane pentru statistici */
@@ -187,14 +189,16 @@
             display: flex;
             gap: 15px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         /* Butoane - capete complet rotunde (50px) cu Archivo Light */
         button { 
+            box-sizing: border-box;
             font-family: 'Archivo', sans-serif;
             font-weight: 300; /* Archivo Light */
             font-size: 18px; 
-            padding: 18px; 
+            padding: 18px 10px; /* Redus padding-ul lateral pentru a preveni overflow-ul */
             cursor: pointer; 
             border: none; 
             border-radius: 50px; 
@@ -221,6 +225,7 @@
             background: #1e1e1e; 
             color: white; 
             flex: 1; 
+            width: 50%; /* Forțează butoanele să împartă ecranul în mod egal */
             transition: background 0.2s, color 0.2s, transform 0.1s ease; 
         }
         
@@ -229,6 +234,7 @@
             width: 20px;
             height: 20px;
             fill: currentColor;
+            flex-shrink: 0; /* Previne turtirea pictogramei pe ecrane foarte mici */
         }
     </style>
 </head>
