@@ -247,11 +247,11 @@
         </div>
         <div class="setting-field">
             <label>Cicluri totale:</label>
-            <input type="number" id="inputCicluri" value="3" min="1" inputmode="numeric">
+            <input type="number" id="inputCicluri" value="4" min="1" inputmode="numeric">
         </div>
         <div class="setting-field">
             <label>Exerciții per ciclu:</label>
-            <input type="number" id="inputRunde" value="4" min="1" inputmode="numeric">
+            <input type="number" id="inputRunde" value="10" min="1" inputmode="numeric">
         </div>
         <div class="setting-field">
             <label>Workout (secunde):</label>
@@ -259,11 +259,11 @@
         </div>
         <div class="setting-field">
             <label>Rest / Odihnă (sec):</label>
-            <input type="number" id="inputRest" value="10" min="0" inputmode="numeric">
+            <input type="number" id="inputRest" value="15" min="0" inputmode="numeric">
         </div>
         <div class="setting-field">
             <label>Recovery / Pauză Ciclu (sec):</label>
-            <input type="number" id="inputRecovery" value="60" min="0" inputmode="numeric">
+            <input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
         </div>
 
         <button class="btn-start" onclick="comutaLaTimer()">
@@ -575,10 +575,10 @@
                 actualizeazaInterfata();
                 
                 if (timpRamas <= 3) {
-                    redaSunet(600, 0.1);
+                    redaSunet(1200, 0.1);
                 }
             } else {
-                redaSunet(900, 0.4); 
+                redaSunet(1800, 0.4); 
                 schimbaStarea();
             }
         }
@@ -630,7 +630,7 @@
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
             
-            redaSunet(1200, 0.6);
+            redaSunet(1800, 1);
 
             antrenamentTerminat = true;
             timpTotalRamas = 0;
