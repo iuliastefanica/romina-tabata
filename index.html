@@ -2,8 +2,8 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Timer-ul Perfect pentru Intervale cu Romina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Romina's Tabata Simplu și Fără Reclame</title>
     <!-- Permite rularea ca aplicație web pe iOS și Android -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,19 +25,24 @@
             touch-action: manipulation;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            overflow: hidden;
+        }
+
         body { 
             text-align: center; 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background: #121212; 
             color: white; 
-            padding: 0; 
-            margin: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            min-height: 100dvh; /* Rezolvare nativă modernă pentru barele browserului */
         }
 
         h1 { 
@@ -47,27 +52,26 @@
             margin-bottom: 25px; 
             text-transform: uppercase;
             font-family: 'Archivo', sans-serif;
-            font-weight: 300; /* Archivo Thin / Light 300 */
+            font-weight: 300;
         }
 
-        /* Pagina de Setări - Fundal eliminat, elementele stau direct pe negru */
+        /* Pagina de Setări */
         #page-settings {
             padding: 20px; 
             width: 90%;
             max-width: 380px; 
             display: block;
-            box-sizing: border-box;
         }
 
         .setting-field { 
-            margin-bottom: 12px; /* Redus de la 18px pentru compactare */
+            margin-bottom: 12px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
         .setting-field label { 
             font-family: 'Archivo', sans-serif;
-            font-weight: 300; /* Archivo Light */
+            font-weight: 300; 
             font-size: 16px; 
             color: #ccc; 
             text-align: left; 
@@ -83,46 +87,44 @@
             background: #2a2a2a; 
             color: white; 
             font-family: 'Archivo', sans-serif;
-            font-weight: 700; /* Cifre cu Archivo 700 */
+            font-weight: 700; 
         }
 
-        /* Pagina completă a Timerului (Layout ecran complet) */
+        /* Pagina completă a Timerului - Optimizată dinamic */
         #page-timer { 
             display: none; 
             width: 100vw;
             height: 100vh;
+            height: 100dvh; /* Previne împingerea sub controalele browserului */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 20px;
-            box-sizing: border-box;
+            padding: 25px 20px 15px 20px; /* Padding ajustat pentru siguranță jos */
             background: #121212;
             transition: background 0.3s ease;
         }
 
         /* Containerul pentru Status (Stare + Subtitlu Pauză) */
         .status-container {
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            min-height: 80px; 
+            gap: 2px;
+            min-height: 70px; 
         }
 
-        /* Partea de sus */
         #status { 
             font-family: 'Archivo', sans-serif;
-            font-weight: 100; /* Archivo Thin */
-            font-size: 42px; 
+            font-weight: 100; 
+            font-size: 38px; 
             text-transform: uppercase; 
         }
 
-        /* Stil pentru textul secundar de PAUZĂ */
         #sub-status {
             font-family: 'Archivo', sans-serif;
-            font-weight: 300; /* Archivo Light */
-            font-size: 20px;
+            font-weight: 300; 
+            font-size: 18px;
             color: #ffffff;
             text-transform: uppercase;
             visibility: hidden; 
@@ -138,7 +140,7 @@
         }
         #timer { 
             font-size: 35vw; 
-            max-font-size: 170px;
+            max-font-size: 160px;
             font-weight: normal; 
             color: #e82d74; 
             font-family: 'Bebas Neue', sans-serif;
@@ -149,14 +151,13 @@
         .bottom-container {
             width: 100%;
             max-width: 400px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
+            margin-bottom: 10px; /* Ridică ușor întregul grup de butoane */
         }
 
         /* Layout pe 3 coloane pentru statistici */
         .stats-row {
             width: 100%;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
@@ -169,17 +170,17 @@
 
         .stat-label {
             font-family: 'Archivo', sans-serif;
-            font-weight: 300; /* Archivo Light */
-            font-size: 13px;
+            font-weight: 300; 
+            font-size: 12px;
             color: #aaa;
             text-transform: uppercase;
             display: block;
-            margin-bottom: 6px; 
+            margin-bottom: 4px; 
         }
 
         .stat-value {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 32px;
+            font-size: 28px;
             color: white;
             display: block;
             line-height: 1;
@@ -187,18 +188,16 @@
 
         .buttons-row {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
-            box-sizing: border-box;
         }
 
-        /* Butoane - capete complet rotunde (50px) cu Archivo Light */
+        /* Butoane optimizate */
         button { 
-            box-sizing: border-box;
             font-family: 'Archivo', sans-serif;
-            font-weight: 300; /* Archivo Light */
+            font-weight: 300; 
             font-size: 18px; 
-            padding: 18px 10px; /* Redus padding-ul lateral pentru a preveni overflow-ul */
+            padding: 16px 10px; 
             cursor: pointer; 
             border: none; 
             border-radius: 50px; 
@@ -206,7 +205,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Spațiul dintre iconiță și text */
+            gap: 8px; 
         }
         
         button:active {
@@ -218,23 +217,22 @@
             color: white; 
             width: 100%; 
             font-weight: 400; 
-            margin-top: 28px; /* Spațiu mai mare doar înainte de butonul Start */
+            margin-top: 25px; 
         }
         
         .btn-pause, .btn-stop { 
             background: #1e1e1e; 
             color: white; 
             flex: 1; 
-            width: 50%; /* Forțează butoanele să împartă ecranul în mod egal */
+            width: 50%;
             transition: background 0.2s, color 0.2s, transform 0.1s ease; 
         }
         
-        /* Asigură că SVG-ul își modifică culoarea automat odată cu textul din buton */
         .btn-icon {
             width: 20px;
             height: 20px;
             fill: currentColor;
-            flex-shrink: 0; /* Previne turtirea pictogramei pe ecrane foarte mici */
+            flex-shrink: 0; 
         }
     </style>
 </head>
@@ -341,11 +339,20 @@
         let audioCtx = null;
         let wakeLock = null;
 
-        // Căile vectoriale SVG utilizate dinamic
         const SVG_PLAY = "M8 5v14l11-7z";
         const SVG_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
         const SVG_STOP = "M6 6h12v12H6z";
         const SVG_SETTINGS = "M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z";
+
+        function ajusteazaInaltimeEcran() {
+            const inaltimeFereastra = window.innerHeight;
+            const timerPage = document.getElementById("page-timer");
+            if(timerPage) {
+                timerPage.style.height = `${inaltimeFereastra}px`;
+            }
+        }
+        window.addEventListener('resize', ajusteazaInaltimeEcran);
+        window.addEventListener('orientationchange', ajusteazaInaltimeEcran);
 
         async function activeazaWakeLock() {
             try {
@@ -394,22 +401,18 @@
 
         function calculeazaTimpTotalInitial() {
             let total = setari.pregatire;
-            
             for (let c = 1; c <= setari.cicluri; c++) {
                 for (let r = 1; r <= setari.runde; r++) {
                     total += setari.workout;
-                    if (r < setari.runde) {
-                        total += setari.rest;
-                    }
+                    if (r < setari.runde) total += setari.rest;
                 }
-                if (c < setari.cicluri) {
-                    total += setari.recovery;
-                }
+                if (c < setari.cicluri) total += setari.recovery;
             }
             return total;
         }
 
         function comutaLaTimer() {
+            ajusteazaInaltimeEcran();
             activeazaWakeLock();
 
             setari = {
@@ -426,7 +429,6 @@
             document.getElementById("page-settings").style.display = "none";
             document.getElementById("page-timer").style.display = "flex";
 
-            // Resetare funcționalitate și interfață butoane
             antrenamentTerminat = false;
             const btnPauza = document.getElementById("btn-pauza");
             const btnStop = document.getElementById("btn-stop");
@@ -511,7 +513,7 @@
                     statusEl.innerText = "REST";
                     statusEl.style.color = "#a6d100";
                 }
-                if (stareCurentă === "RECOVERY") {
+                if (stareCurentURL === "RECOVERY") {
                     statusEl.innerText = "RECOVERY";
                     statusEl.style.color = "#3598db";
                 }
@@ -646,7 +648,6 @@
             const btnPauza = document.getElementById("btn-pauza");
             const btnStop = document.getElementById("btn-stop");
 
-            // Schimbare text și iconițe pentru starea finală
             document.getElementById("text-pauza").innerText = "RESTART";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PLAY);
             btnPauza.setAttribute("onclick", "comutaLaTimer()");
