@@ -263,11 +263,11 @@
             <input type="number" id="inputWorkout" value="30" min="5" inputmode="numeric">
         </div>
         <div class="setting-field">
-            <label>Rest / Odihnă (sec):</label>
+            <label>Rest (secunde):</label>
             <input type="number" id="inputRest" value="15" min="0" inputmode="numeric">
         </div>
         <div class="setting-field">
-            <label>Recovery / Pauză Ciclu (sec):</label>
+            <label>Recovery (secunde):</label>
             <input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
         </div>
 
@@ -524,25 +524,25 @@
                     statusEl.style.color = "#ffffff";
                     timerEl.style.color = "#ffffff";
                     bodyEl.style.background = "#121212";
-                    redaSunetVocal("sunete/getready-ro.mp3");
+                    redaSunetVocal("sunete/romana/getready.mp3");
                 } else if (stare === "WORK") {
                     statusEl.innerText = "MIȘCARE";
                     statusEl.style.color = "#e82d74";
                     timerEl.style.color = "#e82d74";
                     bodyEl.style.background = "#121212";
-                    redaSunetVocal("sunete/exercise-ro.mp3");
+                    redaSunetVocal("sunete/romana/exercise.mp3");
                 } else if (stare === "REST") {
                     statusEl.innerText = "PAUZĂ";
                     statusEl.style.color = "#a6d100";
                     timerEl.style.color = "#a6d100";
                     bodyEl.style.background = "#131610";
-                    redaSunetVocal("sunete/rest-ro.mp3");
+                    redaSunetVocal("sunete/romana/rest.mp3");
                 } else if (stare === "RECOVERY") {
                     statusEl.innerText = "REPAUS";
                     statusEl.style.color = "#3598db";
                     timerEl.style.color = "#3598db";
                     bodyEl.style.background = "#101316";
-                    redaSunetVocal("sunete/recovery-ro.mp3");
+                    redaSunetVocal("sunete/romana/recovery.mp3");
                 }
             }
 
@@ -617,7 +617,7 @@
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
             
-            redaSunetVocal("sunete/bravo-ro.mp3");
+            redaSunetVocal("sunete/romana/bravo.mp3");
 
             antrenamentTerminat = true;
             timpTotalRamas = 0;
