@@ -270,6 +270,14 @@
             <label>Recovery (secunde):</label>
             <input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
         </div>
+		
+		<div class="setting-field">
+			<label>Voce:</label>
+			<select id="selectVoce" style="width: 80px; padding: 12px 5px; text-align: center; font-size: 16px; border-radius: 10px; border: 1px solid #333; background: #2a2a2a; color: white; font-family: 'Archivo', sans-serif;">
+				<option value="romana">Ro</option>
+				<option value="engleza">Eng</option>
+			</select>
+		</div>
 
         <button class="btn-start" onclick="comutaLaTimer()">
             <svg class="btn-icon" viewBox="0 0 24 24">
@@ -341,17 +349,40 @@
         let antrenamentTerminat = false;
 
         let wakeLock = null;
+		
+		let limbaSelectata = "romana";
 
         const SVG_PLAY = "M8 5v14l11-7z";
         const SVG_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
         const SVG_STOP = "M6 6h12v12H6z";
         const SVG_SETTINGS = "M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z";
 
-        function redaSunetVocal(fisier) {
-            const audio = document.getElementById("audioVocal");
-            audio.src = fisier;
-            audio.play();
-        }
+		const texteTraduse = {
+			romana: {
+				PREPARE: "Pregătește-te",
+				WORK: "Mișcare",
+				REST: "Pauză",
+				RECOVERY: "Repaus",
+				FINISHED: "Bravo!"
+			},
+			engleza: {
+				PREPARE: "Get ready",
+				WORK: "Exercise",
+				REST: "Rest",
+				RECOVERY: "Recovery",
+				FINISHED: "Good job!"
+			}
+		};
+
+        function redaSunetVocal(fisierNume) {
+			// Preluăm limba selectată
+			limbaSelectata = document.getElementById("selectVoce").value;
+			const audio = document.getElementById("audioVocal");
+			
+			// Construim calea: sunete/romana/nume.mp3 sau sunete/engleza/nume.mp3
+			audio.src = `sunete/${limbaSelectata}/${fisierNume}`;
+			audio.play();
+		}
 
         function ajusteazaInaltimeEcran() {
             const inaltimeFereastra = window.innerHeight;
@@ -444,6 +475,16 @@
             timerInterval = setInterval(ruleazaCronometru, 1000);
         }
 
+		function actualizeazaTextStare(stare) {
+			const limba = document.getElementById("selectVoce").value;
+			const elementTitlu = document.getElementById("titluStare"); // Asigură-te că acesta este ID-ul corect
+			
+			// Verificăm dacă starea există în obiectul de traduceri
+			if (texteTraduse[limba][stare]) {
+				elementTitlu.innerText = texteTraduse[limba][stare];
+			}
+		}
+
         function toglePauza() {
             if (antrenamentTerminat) return;
 
@@ -452,6 +493,7 @@
             const subStatusEl = document.getElementById("sub-status");
             const statusEl = document.getElementById("status");
             const iconPath = document.getElementById("icon-pauza-stare").querySelector("path");
+			const limba = document.getElementById("selectVoce").value;
             
             if (esteInPauza) {
                 dezactiveazaWakeLock();
@@ -483,19 +525,19 @@
                 subStatusEl.style.visibility = "hidden";
 
                 if (stareCurentă === "PREPARE") {
-                    statusEl.innerText = "PREGĂTEȘTE-TE";
+                    statusEl.innerText = texteTraduse[limba].PREPARE;
                     statusEl.style.color = "#ffffff";
                 }
                 if (stareCurentă === "WORK") {
-                    statusEl.innerText = "MIȘCARE";
+                    statusEl.innerText = texteTraduse[limba].WORK;
                     statusEl.style.color = "#e82d74";
                 }
                 if (stareCurentă === "REST") {
-                    statusEl.innerText = "PAUZĂ";
+                    statusEl.innerText = texteTraduse[limba].REST;
                     statusEl.style.color = "#a6d100";
                 }
                 if (stareCurentă === "RECOVERY") {
-                    statusEl.innerText = "REPAUS";
+                    statusEl.innerText = texteTraduse[limba].RECOVERY;
                     statusEl.style.color = "#3598db";
                 }
             }
@@ -514,35 +556,36 @@
             stareCurentă = stare;
             timpRamas = timp;
             
+			const limba = document.getElementById("selectVoce").value;
             const statusEl = document.getElementById("status");
             const timerEl = document.getElementById("timer");
             const bodyEl = document.body;
 
             if (!esteInPauza) {
                 if (stare === "PREPARE") {
-                    statusEl.innerText = "PREGĂTEȘTE-TE";
+                    statusEl.innerText = texteTraduse[limba].PREPARE;
                     statusEl.style.color = "#ffffff";
                     timerEl.style.color = "#ffffff";
                     bodyEl.style.background = "#121212";
-                    redaSunetVocal("sunete/romana/getready.mp3");
+                    redaSunetVocal("getready.mp3");
                 } else if (stare === "WORK") {
-                    statusEl.innerText = "MIȘCARE";
+                    statusEl.innerText = texteTraduse[limba].WORK;
                     statusEl.style.color = "#e82d74";
                     timerEl.style.color = "#e82d74";
                     bodyEl.style.background = "#121212";
-                    redaSunetVocal("sunete/romana/exercise.mp3");
+                    redaSunetVocal("exercise.mp3");
                 } else if (stare === "REST") {
-                    statusEl.innerText = "PAUZĂ";
+                    statusEl.innerText = texteTraduse[limba].REST;
                     statusEl.style.color = "#a6d100";
                     timerEl.style.color = "#a6d100";
                     bodyEl.style.background = "#131610";
-                    redaSunetVocal("sunete/romana/rest.mp3");
+                    redaSunetVocal("rest.mp3");
                 } else if (stare === "RECOVERY") {
-                    statusEl.innerText = "REPAUS";
+                    statusEl.innerText = texteTraduse[limba].RECOVERY;
                     statusEl.style.color = "#3598db";
                     timerEl.style.color = "#3598db";
                     bodyEl.style.background = "#101316";
-                    redaSunetVocal("sunete/romana/recovery.mp3");
+                    redaSunetVocal("recovery.mp3");
                 }
             }
 
@@ -616,14 +659,15 @@
         function terminaAntrenament() {
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
+			const limba = document.getElementById("selectVoce").value;
             
-            redaSunetVocal("sunete/romana/bravo.mp3");
+            redaSunetVocal("bravo.mp3");
 
             antrenamentTerminat = true;
             timpTotalRamas = 0;
             document.getElementById("stat-total").innerText = "00:00";
             
-            document.getElementById("status").innerText = "BRAVO!";
+			document.getElementById("status").innerText = texteTraduse[limba].FINISHED;
             document.getElementById("status").style.color = "#ffffff";
             document.getElementById("sub-status").style.visibility = "hidden";
             
