@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Romina's Tabata Simplu și Fără Reclame</title>
+    <title>Romina's Interval Timer Simplu și Fără Reclame</title>
     <!-- Permite rularea ca aplicație web pe iOS și Android -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -262,7 +262,7 @@
     <!-- PAGINA DE SETĂRI -->
     <div id="page-settings">
 		<img src="tabata-romina-logo.svg" alt="Logo" style="width: 50px; max-width: 200px; margin-bottom: 20px;">
-        <h1>ROMINA'S<br/>TABATA SIMPLU ȘI<br/>FĂRĂ RECLAME</h1>
+        <h1>ROMINA'S<br/>INTERVAL TIMER SIMPLU<br/>ȘI FĂRĂ RECLAME</h1>
         
         <div class="setting-field">
             <label>Pregătire (secunde):</label>
@@ -569,11 +569,11 @@
 				
 					setari = {
 						pregatire: parseInt(document.getElementById("inputPregatire").value) || 0,
-						cicluri: parseInt(document.getElementById("inputCicluri").value),
-						runde: parseInt(document.getElementById("inputRunde").value),
-						workout: parseInt(document.getElementById("inputWorkout").value),
-						rest: parseInt(document.getElementById("inputRest").value),
-						recovery: parseInt(document.getElementById("inputRecovery").value)
+						cicluri: parseInt(document.getElementById("inputCicluri").value) || 4,
+						runde: parseInt(document.getElementById("inputRunde").value) || 10,
+						workout: parseInt(document.getElementById("inputWorkout").value) || 30,
+						rest: parseInt(document.getElementById("inputRest").value) || 15,
+						recovery: parseInt(document.getElementById("inputRecovery").value) || 90
 					};
 
 					timpTotalRamas = calculeazaTimpTotalInitial();
