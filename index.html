@@ -7,7 +7,13 @@
     <!-- Permite rularea ca aplicație web pe iOS și Android -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+	
+	<meta property="og:title" content="Romina's Basic Interval Timer Fără Reclame">
+	<meta property="og:description" content="Cronometru basic și fără reclame pentru cel mai așteptat antrenament al săptămânii.">
+	<meta property="og:image" content="/icon.png">
+	<meta property="og:url" content="https://iuliastefanica.github.io/romina-tabata">
+	<meta property="og:type" content="website">
+
     <!-- Iconițe personalizate cu versiune pentru cache -->
     <link class="apple-touch-icon" href="icon.png?v=9">
     <link rel="icon" type="image/png" href="icon.png?v=9" sizes="192x192">
@@ -128,6 +134,7 @@
             color: #ffffff;
             text-transform: uppercase;
             visibility: hidden; 
+			margin-top: 24px;
         }
 
         /* Partea de mijloc (Cronometrul uriaș în Bebas Neue) */
@@ -625,12 +632,10 @@
 
             esteInPauza = false;
             
-           // document.getElementById("text-pauza").innerText = "PAUZĂ";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PAUSE);
             btnPauza.style.background = "rgb(40, 40, 40)";
             btnPauza.style.color = "white";
             
-           // document.getElementById("text-stop").innerText = "STOP";
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_STOP);
             btnStop.style.background = "rgb(40, 40, 40)";
             btnStop.style.color = "white";
@@ -846,13 +851,13 @@
             const btnPauza = document.getElementById("btn-pauza");
             const btnStop = document.getElementById("btn-stop");
 
-           // document.getElementById("text-pauza").innerText = "RESTART";
+            //document.getElementById("text-pauza").innerText = "RESTART";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_REPLAY);
             btnPauza.setAttribute("onclick", "comutaLaTimer('btn-pauza')");
             btnPauza.style.background = "#e82d74"; 
             btnPauza.style.color = "#ffffff";
 
-           // document.getElementById("text-stop").innerText = "SETĂRI";
+            //document.getElementById("text-stop").innerText = "SETĂRI";
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_SETTINGS);
             btnStop.setAttribute("onclick", "opresteSiRevino()");
             btnStop.style.background = "rgb(40, 40, 40)";
