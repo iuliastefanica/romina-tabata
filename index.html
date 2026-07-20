@@ -278,6 +278,11 @@
 				<option value="engleza">Eng</option>
 			</select>
 		</div>
+		
+		<div class="setting-field">
+			<label>Volum Voce:</label>
+			<input type="range" id="volumVoce" min="0" max="1" step="0.1" value="1" style="width: 80px; accent-color: #e82d74;">
+		</div>
 
         <button class="btn-start" onclick="comutaLaTimer()">
             <svg class="btn-icon" viewBox="0 0 24 24">
@@ -374,12 +379,14 @@
 			}
 		};
 
-        function redaSunetVocal(fisierNume) {
-			// Preluăm limba selectată
+       function redaSunetVocal(fisierNume) {
 			limbaSelectata = document.getElementById("selectVoce").value;
 			const audio = document.getElementById("audioVocal");
+			const sliderVolum = document.getElementById("volumVoce");
 			
-			// Construim calea: sunete/romana/nume.mp3 sau sunete/engleza/nume.mp3
+			// Setează volumul din slider (valoare între 0 și 1)
+			audio.volume = sliderVolum.value;
+			
 			audio.src = `sunete/${limbaSelectata}/${fisierNume}`;
 			audio.play();
 		}
