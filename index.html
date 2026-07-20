@@ -298,7 +298,7 @@
 		</div>
 		
 
-        <button class="btn-start" onclick="comutaLaTimer()">
+        <button id="btn-start" class="btn-start" onclick="comutaLaTimer(this.id)">
             <svg class="btn-icon" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
             </svg>
@@ -407,7 +407,9 @@
 		function genereazaPlanAntrenament() {			
 			// Calculăm durata totală pentru a porni de la ea în jos
 			let timpTotalRamas = calculeazaTimpTotalInitial();
-			
+			if (planAntrenament) {
+				planAntrenament.length = 0;
+			}
 			// 1. PREPARE
 			if (setari.pregatire > 0) {
 				planAntrenament.push({ stare: "PREPARE", runda: 1, ciclu: 1, durata: setari.pregatire, startTime: timpTotalRamas });
@@ -559,24 +561,32 @@
 			return startTime;
 		}
 
-        function comutaLaTimer() {
+        function comutaLaTimer(idButon) {
             ajusteazaInaltimeEcran();
             activeazaWakeLock();
+            
+			if (idButon === "btn-start" || idButon === "btn-stop") {
+				
+					setari = {
+						pregatire: parseInt(document.getElementById("inputPregatire").value) || 0,
+						cicluri: parseInt(document.getElementById("inputCicluri").value),
+						runde: parseInt(document.getElementById("inputRunde").value),
+						workout: parseInt(document.getElementById("inputWorkout").value),
+						rest: parseInt(document.getElementById("inputRest").value),
+						recovery: parseInt(document.getElementById("inputRecovery").value)
+					};
 
-            setari = {
-                pregatire: parseInt(document.getElementById("inputPregatire").value) || 0,
-                cicluri: parseInt(document.getElementById("inputCicluri").value),
-                runde: parseInt(document.getElementById("inputRunde").value),
-                workout: parseInt(document.getElementById("inputWorkout").value),
-                rest: parseInt(document.getElementById("inputRest").value),
-                recovery: parseInt(document.getElementById("inputRecovery").value)
-            };
-
-            timpTotalRamas = calculeazaTimpTotalInitial();
+					timpTotalRamas = calculeazaTimpTotalInitial();
+					
+					// 2. Afișăm în consolă să vedem dacă sunt valorile corecte
+					console.log("--- Setări preluate din input-uri ---");
+					console.table(setari); // console.table afișează datele foarte frumos sub formă de tabel
+					planAntrenament.length = 0;
+					
+					genereazaPlanAntrenament();
+					
+			} 
 			
-			if (!planAntrenament || planAntrenament.length === 0) { 
-				genereazaPlanAntrenament(); 
-			}
 			
 			indexCurent = 0;
 			actualizeazaStareCurenta();
@@ -816,7 +826,7 @@
 
            // document.getElementById("text-pauza").innerText = "RESTART";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_REPLAY);
-            btnPauza.setAttribute("onclick", "comutaLaTimer()");
+            btnPauza.setAttribute("onclick", "comutaLaTimer('btn-pauza')");
             btnPauza.style.background = "#e82d74"; 
             btnPauza.style.color = "#ffffff";
 
