@@ -116,7 +116,7 @@
 
         #status { 
             font-family: 'Archivo', sans-serif;
-            font-weight: 100; 
+            font-weight: 300; 
             font-size: 38px; 
             text-transform: uppercase; 
         }
@@ -186,10 +186,28 @@
         }
 
         .buttons-row {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-        }
+			display: flex;
+			gap: 8px;
+			width: 100%;
+		}
+
+		.btn-control {
+			background: rgb(40, 40, 40);
+			color: white;
+			flex: 1;
+			padding: 16px 5px;
+			border-radius: 50px;
+			transition: transform 0.1s ease, background 0.2s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.btn-icon {
+			width: 24px;
+			height: 24px;
+			fill: currentColor;
+		}
 
         /* Butoane optimizate */
         button { 
@@ -220,7 +238,7 @@
         }
         
         .btn-pause, .btn-stop { 
-            background: #1e1e1e; 
+            background: rgb(40, 40, 40); 
             color: white; 
             flex: 1; 
             width: 50%;
@@ -244,7 +262,7 @@
     <!-- PAGINA DE SETĂRI -->
     <div id="page-settings">
 		<img src="tabata-romina-logo.svg" alt="Logo" style="width: 50px; max-width: 200px; margin-bottom: 20px;">
-        <h1>ROMINA'S<br/>TABATA SIMPLU ȘI FĂRĂ RECLAME</h1>
+        <h1>ROMINA'S<br/>TABATA SIMPLU ȘI<br/>FĂRĂ RECLAME</h1>
         
         <div class="setting-field">
             <label>Pregătire (secunde):</label>
@@ -321,19 +339,19 @@
             </div>
             
             <div class="buttons-row">
-                <button id="btn-pauza" class="btn-pause" onclick="toglePauza()">
-                    <svg class="btn-icon" viewBox="0 0 24 24" id="icon-pauza-stare">
-                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                    </svg>
-                    <span id="text-pauza">PAUZĂ</span>
-                </button>
-                <button id="btn-stop" class="btn-stop" onclick="opresteSiRevino()">
-                    <svg class="btn-icon" viewBox="0 0 24 24" id="icon-stop-stare">
-                        <path d="M6 6h12v12H6z"/>
-                    </svg>
-                    <span id="text-stop">STOP</span>
-                </button>
-            </div>
+				<button id="btn-pauza" class="btn-pause" onclick="toglePauza()">
+					<svg class="btn-icon" viewBox="0 0 24 24" id="icon-pauza-stare"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+				</button>
+				<button id="btn-back" class="btn-control" onclick="backStare()">
+					<svg class="btn-icon" viewBox="0 0 24 24" style="transform: scaleX(-1);"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+				</button>
+				<button id="btn-skip" class="btn-control" onclick="skipStare()">
+					<svg class="btn-icon" viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+				</button>
+				<button id="btn-stop" class="btn-stop" onclick="opresteSiRevino()">
+					<svg class="btn-icon" viewBox="0 0 24 24" id="icon-stop-stare"><path d="M6 6h12v12H6z"/></svg>
+				</button>
+			</div>
         </div>
     </div>
 
@@ -348,20 +366,24 @@
         let esteInPauza = false;
         let timpTotalRamas = 0;
         let antrenamentTerminat = false;
+		let indexCurent = 0; // Pornește de la prima stare (index 0)
 
         let wakeLock = null;
 		
 		let limbaSelectata = "romana";
+		
+		let planAntrenament = [];
 
         const SVG_PLAY = "M8 5v14l11-7z";
         const SVG_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
         const SVG_STOP = "M6 6h12v12H6z";
         const SVG_SETTINGS = "M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z";
-
+		const SVG_REPLAY = "M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z";
+		
 		const texteTraduse = {
 			romana: {
 				PREPARE: "Pregătește-te",
-				WORK: "Mișcare",
+				WORK: "Începem",
 				REST: "Pauză",
 				RECOVERY: "Repaus",
 				FINISHED: "Bravo!"
@@ -374,6 +396,78 @@
 				FINISHED: "Good job!"
 			}
 		};
+		
+		const durate = { 
+				"WORK": setari.workout, 
+				"REST": setari.rest, 
+				"RECOVERY": setari.recovery, 
+				"PREPARE": setari.pregatire 
+		};
+		
+		function genereazaPlanAntrenament() {			
+			// Calculăm durata totală pentru a porni de la ea în jos
+			let timpTotalRamas = calculeazaTimpTotalInitial();
+			
+			// 1. PREPARE
+			if (setari.pregatire > 0) {
+				planAntrenament.push({ stare: "PREPARE", runda: 1, ciclu: 1, durata: setari.pregatire, startTime: timpTotalRamas });
+				timpTotalRamas -= setari.pregatire;
+			}
+
+			for (let c = 1; c <= setari.cicluri; c++) {
+				for (let r = 1; r <= setari.runde; r++) {
+					
+					// 2. WORK
+					planAntrenament.push({ stare: "WORK", runda: r, ciclu: c, durata: setari.workout, startTime: timpTotalRamas });
+					timpTotalRamas -= setari.workout;
+
+					// 3. REST (dacă nu e ultima rundă din ultimul ciclu)
+					if (!(r === setari.runde && c === setari.cicluri)) {
+						planAntrenament.push({ stare: "REST", runda: r, ciclu: c, durata: setari.rest, startTime: timpTotalRamas });
+						timpTotalRamas -= setari.rest;
+					}
+				}
+
+				// 4. RECOVERY (între cicluri)
+				if (c < setari.cicluri) {
+					planAntrenament.push({ stare: "RECOVERY", runda: setari.runde, ciclu: c, durata: setari.recovery, startTime: timpTotalRamas });
+					timpTotalRamas -= setari.recovery;
+				}
+			}
+		}
+		
+		function actualizeazaStareCurenta() {
+			// Aplică acele valori variabilelor tale globale
+			// Acestea sunt variabilele pe care le citește cronometrul și interfața ta
+			stareCurentă = planAntrenament[indexCurent].stare;
+			rundaCurenta = planAntrenament[indexCurent].runda;
+			cicluCurent = planAntrenament[indexCurent].ciclu;
+			timpTotalRamas = planAntrenament[indexCurent].startTime;
+		}
+
+		function backStare() {
+			// Verificăm dacă nu suntem deja la prima stare (index 0)
+			if (indexCurent > 0) {
+			console.log("Index curent", indexCurent);
+				// 1. Scădem indexul pentru a ne întoarce la starea anterioară
+				indexCurent--;
+			} else {
+				indexCurent = 0;
+			}
+			// 2. Sincronizăm toate variabilele globale cu noua stare din istoric
+			actualizeazaStareCurenta();
+				
+			// 3. Pornim cronometrul la noua stare
+			pornesteStare(planAntrenament[indexCurent].stare, planAntrenament[indexCurent].durata);
+		}
+
+		function skipStare() {
+			timpRamas = 1;
+			schimbaStarea();
+			// 2. Sincronizăm toate variabilele globale cu noua stare din istoric
+			actualizeazaStareCurenta();
+		}
+		
 
         function redaSunetVocal(fisierNume) {
 			// Preluăm limba selectată
@@ -412,17 +506,58 @@
             }
         }
 
-        function calculeazaTimpTotalInitial() {
-            let total = setari.pregatire;
-            for (let c = 1; c <= setari.cicluri; c++) {
-                for (let r = 1; r <= setari.runde; r++) {
-                    total += setari.workout;
-                    if (r < setari.runde) total += setari.rest;
-                }
-                if (c < setari.cicluri) total += setari.recovery;
-            }
-            return total;
-        }
+		function calculeazaTimpTotalInitial() {
+			let total = setari.pregatire;
+			for (let c = 1; c <= setari.cicluri; c++) {
+				for (let r = 1; r <= setari.runde; r++) {
+					total += setari.workout;
+					// Adăugăm REST după fiecare rundă
+					total += setari.rest;
+				}
+				// După ce am adăugat REST la toate rundele, 
+				// adăugăm RECOVERY doar dacă nu este ultimul ciclu
+				if (c < setari.cicluri) {
+					total += setari.recovery;
+				}
+			}
+			// Deoarece am adăugat un REST în plus la finalul ultimului ciclu, îl scădem:
+			total -= setari.rest;
+			
+			return total;
+		}
+		
+		function calculeazaStartTime(stare, ciclu, runda) {
+			let durataUnuiCicluComplet = (setari.workout * setari.runde) + (setari.rest * setari.runde);
+			let durataTotala = (setari.cicluri * durataUnuiCicluComplet) + ((setari.cicluri - 1) * setari.recovery) - setari.rest + setari.pregatire;
+			if (stare === "PREPARE") return durataTotala;
+			
+			let totalScurs = 0;
+
+			// 2. Calculăm timpul consumat în ciclurile complete ANTERIOARE
+			let cicluriAnterioare = ciclu - 1;
+			totalScurs += cicluriAnterioare * (durataUnuiCicluComplet + setari.recovery);
+
+			// 3. Calculăm timpul consumat în rundele complete ANTERIOARE din ciclul curent
+			let rundeAnterioareInCiclu = runda - 1;
+			totalScurs += rundeAnterioareInCiclu * (setari.workout + setari.rest);
+
+			// 4. Adăugăm timpul consumat în cadrul rundei curente, PÂNĂ la starea cerută
+			// Ordinea standard: PREPARE -> WORK -> REST
+			if (stare === "WORK") {
+				totalScurs += setari.pregatire;
+			} else if (stare === "REST") {
+				totalScurs += setari.pregatire + setari.workout;
+			}
+			// Dacă e RECOVERY, stăm la finalul rundelor, deci e deja calculat la punctul 2
+
+			// 5. startTime-ul nostru este timpul total al antrenamentului MINUS timpul scurs până la ea
+			// (sau poți returna direct 'totalScurs' dacă vrei timpul de la începutul antrenamentului)
+			
+			// Calculăm durata totală a antrenamentului
+			let startTime = durataTotala - totalScurs;
+			
+			return startTime;
+		}
 
         function comutaLaTimer() {
             ajusteazaInaltimeEcran();
@@ -438,7 +573,14 @@
             };
 
             timpTotalRamas = calculeazaTimpTotalInitial();
-
+			
+			if (!planAntrenament || planAntrenament.length === 0) { 
+				genereazaPlanAntrenament(); 
+			}
+			
+			indexCurent = 0;
+			actualizeazaStareCurenta();
+			
             document.getElementById("page-settings").style.display = "none";
             document.getElementById("page-timer").style.display = "flex";
 
@@ -448,30 +590,29 @@
             
             btnPauza.setAttribute("onclick", "toglePauza()");
             btnStop.setAttribute("onclick", "opresteSiRevino()");
+			
+			document.getElementById("btn-skip").style.display = "flex";
+			document.getElementById("btn-back").style.display = "flex";
 
             esteInPauza = false;
             
-            document.getElementById("text-pauza").innerText = "PAUZĂ";
+           // document.getElementById("text-pauza").innerText = "PAUZĂ";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PAUSE);
-            btnPauza.style.background = "#1e1e1e";
+            btnPauza.style.background = "rgb(40, 40, 40)";
             btnPauza.style.color = "white";
             
-            document.getElementById("text-stop").innerText = "STOP";
+           // document.getElementById("text-stop").innerText = "STOP";
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_STOP);
-            btnStop.style.background = "#1e1e1e";
+            btnStop.style.background = "rgb(40, 40, 40)";
             btnStop.style.color = "white";
 
             document.getElementById("sub-status").style.visibility = "hidden";
 
-            cicluCurent = 1;
-            rundaCurenta = 1;
+			stareCurenta = planAntrenament[indexCurent];
+			console.log("--- Stare curenta: ---", stareCurenta.stare);
+			console.log("--- Durata stare curenta: ---", stareCurenta.durata);
+			pornesteStare(stareCurenta.stare, stareCurenta.durata);
 
-            if (setari.pregatire > 0) {
-                pornesteStare("PREPARE", setari.pregatire);
-            } else {
-                pornesteStare("WORK", setari.workout);
-            }
-            
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(ruleazaCronometru, 1000);
         }
@@ -498,7 +639,7 @@
             
             if (esteInPauza) {
                 dezactiveazaWakeLock();
-                document.getElementById("text-pauza").innerText = "REIA";
+                //document.getElementById("text-pauza").innerText = "REIA";
                 iconPath.setAttribute("d", SVG_PLAY);
                 
                 if (stareCurentă === "WORK") {
@@ -518,9 +659,9 @@
                 subStatusEl.style.visibility = "visible";
             } else {
                 activeazaWakeLock();
-                document.getElementById("text-pauza").innerText = "PAUZĂ";
+               // document.getElementById("text-pauza").innerText = "PAUZĂ";
                 iconPath.setAttribute("d", SVG_PAUSE);
-                btnPauza.style.background = "#1e1e1e"; 
+                btnPauza.style.background = "rgb(40, 40, 40)"; 
                 btnPauza.style.color = "white"; 
                 
                 subStatusEl.style.visibility = "hidden";
@@ -614,31 +755,24 @@
             }
         }
 
-        function schimbaStarea() {
-            if (stareCurentă === "PREPARE") {
-                pornesteStare("WORK", setari.workout);
-            }
-            else if (stareCurentă === "WORK") {
-                if (rundaCurenta < setari.runde) {
-                    pornesteStare("REST", setari.rest);
-                } else {
-                    if (cicluCurent < setari.cicluri) {
-                        pornesteStare("RECOVERY", setari.recovery);
-                    } else {
-                        terminaAntrenament();
-                    }
-                }
-            } 
-            else if (stareCurentă === "REST") {
-                rundaCurenta++;
-                pornesteStare("WORK", setari.workout);
-            } 
-            else if (stareCurentă === "RECOVERY") {
-                cicluCurent++;
-                rundaCurenta = 1;
-                pornesteStare("WORK", setari.workout);
-            }
-        }
+		function schimbaStarea() {
+			if (indexCurent >= 0) {
+				if (indexCurent == planAntrenament.length - 1) {
+					terminaAntrenament();
+				} else {
+					indexCurent++;
+					/*stareCurenta = planAntrenament[indexCurent];
+					cicluCurent = stareCurenta.ciclu;
+					rundaCurenta = stareCurenta.runda;
+					*/
+					actualizeazaStareCurenta();
+					console.log("--- Index curent: ---", indexCurent);
+					console.log("--- Stare noua: ---", stareCurenta.stare);
+					console.log("--- Durata stare noua: ---", stareCurenta.durata);
+					pornesteStare(planAntrenament[indexCurent].stare, planAntrenament[indexCurent].durata);
+				}
+			}
+		}
 
         function actualizeazaInterfata() {
             let minute = Math.floor(timpRamas / 60);
@@ -666,6 +800,7 @@
 
             antrenamentTerminat = true;
             timpTotalRamas = 0;
+			timpRamas = 0;
             document.getElementById("stat-total").innerText = "00:00";
             
 			document.getElementById("status").innerText = texteTraduse[limba].FINISHED;
@@ -679,17 +814,20 @@
             const btnPauza = document.getElementById("btn-pauza");
             const btnStop = document.getElementById("btn-stop");
 
-            document.getElementById("text-pauza").innerText = "RESTART";
-            document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PLAY);
+           // document.getElementById("text-pauza").innerText = "RESTART";
+            document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_REPLAY);
             btnPauza.setAttribute("onclick", "comutaLaTimer()");
             btnPauza.style.background = "#e82d74"; 
             btnPauza.style.color = "#ffffff";
 
-            document.getElementById("text-stop").innerText = "SETĂRI";
+           // document.getElementById("text-stop").innerText = "SETĂRI";
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_SETTINGS);
             btnStop.setAttribute("onclick", "opresteSiRevino()");
-            btnStop.style.background = "#1e1e1e";
+            btnStop.style.background = "rgb(40, 40, 40)";
             btnStop.style.color = "#ffffff";
+			
+			document.getElementById("btn-skip").style.display = "none";
+			document.getElementById("btn-back").style.display = "none";
         }
 
         document.addEventListener('visibilitychange', async () => {
