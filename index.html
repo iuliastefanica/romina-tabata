@@ -237,6 +237,10 @@
 </head>
 <body>
 
+    <!-- Elemente Audio -->
+    <audio id="audioBip" src="bip.mp3" preload="auto"></audio>
+    <audio id="audioVocal" preload="auto"></audio>
+
     <!-- PAGINA DE SETĂRI -->
     <div id="page-settings">
         <h1>ROMINA'S<br/>TABATA SIMPLU ȘI FĂRĂ RECLAME</h1>
@@ -335,13 +339,18 @@
         let timpTotalRamas = 0;
         let antrenamentTerminat = false;
 
-        let audioCtx = null;
         let wakeLock = null;
 
         const SVG_PLAY = "M8 5v14l11-7z";
         const SVG_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
         const SVG_STOP = "M6 6h12v12H6z";
         const SVG_SETTINGS = "M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z";
+
+        function redaSunetVocal(fisier) {
+            const audio = document.getElementById("audioVocal");
+            audio.src = fisier;
+            audio.play();
+        }
 
         function ajusteazaInaltimeEcran() {
             const inaltimeFereastra = window.innerHeight;
@@ -367,34 +376,6 @@
             if (wakeLock !== null) {
                 wakeLock.release();
                 wakeLock = null;
-            }
-        }
-
-        function redaSunet(frecventa = 800, ScriptDurata = 0.15) {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-
-                let oscillator = audioCtx.createOscillator();
-                let gainNode = audioCtx.createGain();
-
-                oscillator.type = 'sine'; 
-                oscillator.frequency.value = frecventa;
-                
-                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); 
-                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + ScriptDurata);
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + ScriptDurata);
-            } catch (e) {
-                console.log("Sunetul nu a putut fi redat: ", e);
             }
         }
 
@@ -505,15 +486,15 @@
                     statusEl.style.color = "#ffffff";
                 }
                 if (stareCurentă === "WORK") {
-                    statusEl.innerText = "EXERCISE";
+                    statusEl.innerText = "MIȘCARE";
                     statusEl.style.color = "#e82d74";
                 }
                 if (stareCurentă === "REST") {
-                    statusEl.innerText = "REST";
+                    statusEl.innerText = "PAUZĂ";
                     statusEl.style.color = "#a6d100";
                 }
                 if (stareCurentă === "RECOVERY") {
-                    statusEl.innerText = "RECOVERY";
+                    statusEl.innerText = "REPAUS";
                     statusEl.style.color = "#3598db";
                 }
             }
@@ -542,21 +523,25 @@
                     statusEl.style.color = "#ffffff";
                     timerEl.style.color = "#ffffff";
                     bodyEl.style.background = "#121212";
+                    redaSunetVocal("sunete/getready-ro.mp3");
                 } else if (stare === "WORK") {
-                    statusEl.innerText = "EXERCISE";
+                    statusEl.innerText = "MIȘCARE";
                     statusEl.style.color = "#e82d74";
                     timerEl.style.color = "#e82d74";
                     bodyEl.style.background = "#121212";
+                    redaSunetVocal("sunete/exercise-ro.mp3");
                 } else if (stare === "REST") {
-                    statusEl.innerText = "REST";
+                    statusEl.innerText = "PAUZĂ";
                     statusEl.style.color = "#a6d100";
                     timerEl.style.color = "#a6d100";
                     bodyEl.style.background = "#131610";
+                    redaSunetVocal("sunete/rest-ro.mp3");
                 } else if (stare === "RECOVERY") {
-                    statusEl.innerText = "RECOVERY";
+                    statusEl.innerText = "REPAUS";
                     statusEl.style.color = "#3598db";
                     timerEl.style.color = "#3598db";
                     bodyEl.style.background = "#101316";
+                    redaSunetVocal("sunete/recovery-ro.mp3");
                 }
             }
 
@@ -575,10 +560,11 @@
                 actualizeazaInterfata();
                 
                 if (timpRamas <= 3) {
-                    redaSunet(1200, 0.1);
+                    const audio = document.getElementById("audioBip");
+                    audio.currentTime = 0;
+                    audio.play();
                 }
             } else {
-                redaSunet(1800, 0.4); 
                 schimbaStarea();
             }
         }
@@ -630,13 +616,13 @@
             clearInterval(timerInterval);
             dezactiveazaWakeLock();
             
-            redaSunet(1800, 1);
+            redaSunetVocal("sunete/bravo-ro.mp3");
 
             antrenamentTerminat = true;
             timpTotalRamas = 0;
             document.getElementById("stat-total").innerText = "00:00";
             
-            document.getElementById("status").innerText = "VICTORIE!";
+            document.getElementById("status").innerText = "BRAVO!";
             document.getElementById("status").style.color = "#ffffff";
             document.getElementById("sub-status").style.visibility = "hidden";
             
