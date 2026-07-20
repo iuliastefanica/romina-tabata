@@ -251,6 +251,25 @@
             fill: currentColor;
             flex-shrink: 0; 
         }
+		
+		@keyframes blink {
+			0% { opacity: 1; }
+			50% { opacity: 0.1; }
+			100% { opacity: 1; }
+		}
+
+		/* Clasa aplicata cand este in pauza */
+		.blink-icon {
+			animation: blink 1s infinite;
+		}
+
+		/* Stil pentru SVG-ul din sub-status */
+		#sub-status svg {
+			width: 28px;
+			height: 28px;
+			fill: #ffffff;
+			display: block;
+		}
     </style>
 </head>
 <body>
@@ -311,7 +330,9 @@
         <!-- Partea de Sus -->
         <div class="status-container">
             <div id="status">PREGĂTEȘTE-TE</div>
-            <div id="sub-status">PAUZĂ</div>
+            <div id="sub-status">
+				<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+			</div>
         </div>
         
         <!-- Partea de Mijloc -->
@@ -619,9 +640,10 @@
             document.getElementById("sub-status").style.visibility = "hidden";
 
 			stareCurenta = planAntrenament[indexCurent];
-			console.log("--- Stare curenta: ---", stareCurenta.stare);
-			console.log("--- Durata stare curenta: ---", stareCurenta.durata);
 			pornesteStare(stareCurenta.stare, stareCurenta.durata);
+			
+			document.getElementById("sub-status").style.visibility = "hidden";
+			document.getElementById("sub-status").classList.remove("blink-icon");
 
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(ruleazaCronometru, 1000);
@@ -638,62 +660,64 @@
 		}
 
         function toglePauza() {
-            if (antrenamentTerminat) return;
+			if (antrenamentTerminat) return;
 
-            esteInPauza = !esteInPauza; 
-            const btnPauza = document.getElementById("btn-pauza");
-            const subStatusEl = document.getElementById("sub-status");
-            const statusEl = document.getElementById("status");
-            const iconPath = document.getElementById("icon-pauza-stare").querySelector("path");
+			esteInPauza = !esteInPauza; 
+			const btnPauza = document.getElementById("btn-pauza");
+			const subStatusEl = document.getElementById("sub-status");
+			const statusEl = document.getElementById("status");
+			const iconPath = document.getElementById("icon-pauza-stare").querySelector("path");
 			const limba = document.getElementById("selectVoce").value;
-            
-            if (esteInPauza) {
-                dezactiveazaWakeLock();
-                //document.getElementById("text-pauza").innerText = "REIA";
-                iconPath.setAttribute("d", SVG_PLAY);
-                
-                if (stareCurentă === "WORK") {
-                    btnPauza.style.background = "#e82d74"; 
-                    btnPauza.style.color = "#ffffff";      
-                } else if (stareCurentă === "REST") {
-                    btnPauza.style.background = "#a6d100"; 
-                    btnPauza.style.color = "#000000";      
-                } else if (stareCurentă === "RECOVERY") {
-                    btnPauza.style.background = "#3598db"; 
-                    btnPauza.style.color = "#ffffff";      
-                } else if (stareCurentă === "PREPARE") {
-                    btnPauza.style.background = "#ffffff"; 
-                    btnPauza.style.color = "#000000";      
-                }
-                
-                subStatusEl.style.visibility = "visible";
-            } else {
-                activeazaWakeLock();
-               // document.getElementById("text-pauza").innerText = "PAUZĂ";
-                iconPath.setAttribute("d", SVG_PAUSE);
-                btnPauza.style.background = "rgb(40, 40, 40)"; 
-                btnPauza.style.color = "white"; 
-                
-                subStatusEl.style.visibility = "hidden";
+			
+			if (esteInPauza) {
+				dezactiveazaWakeLock();
+				iconPath.setAttribute("d", SVG_PLAY);
+				
+				if (stareCurentă === "WORK") {
+					btnPauza.style.background = "#e82d74"; 
+					btnPauza.style.color = "#ffffff";      
+				} else if (stareCurentă === "REST") {
+					btnPauza.style.background = "#a6d100"; 
+					btnPauza.style.color = "#000000";      
+				} else if (stareCurentă === "RECOVERY") {
+					btnPauza.style.background = "#3598db"; 
+					btnPauza.style.color = "#ffffff";      
+				} else if (stareCurentă === "PREPARE") {
+					btnPauza.style.background = "#ffffff"; 
+					btnPauza.style.color = "#000000";      
+				}
+				
+				// Afișăm SVG-ul de sus și îi dăm clasa de clipocire
+				subStatusEl.style.visibility = "visible";
+				subStatusEl.classList.add("blink-icon");
+			} else {
+				activeazaWakeLock();
+				iconPath.setAttribute("d", SVG_PAUSE);
+				btnPauza.style.background = "rgb(40, 40, 40)"; 
+				btnPauza.style.color = "white"; 
+				
+				// Ascundem SVG-ul și oprim animația
+				subStatusEl.style.visibility = "hidden";
+				subStatusEl.classList.remove("blink-icon");
 
-                if (stareCurentă === "PREPARE") {
-                    statusEl.innerText = texteTraduse[limba].PREPARE;
-                    statusEl.style.color = "#ffffff";
-                }
-                if (stareCurentă === "WORK") {
-                    statusEl.innerText = texteTraduse[limba].WORK;
-                    statusEl.style.color = "#e82d74";
-                }
-                if (stareCurentă === "REST") {
-                    statusEl.innerText = texteTraduse[limba].REST;
-                    statusEl.style.color = "#a6d100";
-                }
-                if (stareCurentă === "RECOVERY") {
-                    statusEl.innerText = texteTraduse[limba].RECOVERY;
-                    statusEl.style.color = "#3598db";
-                }
-            }
-        }
+				if (stareCurentă === "PREPARE") {
+					statusEl.innerText = texteTraduse[limba].PREPARE;
+					statusEl.style.color = "#ffffff";
+				}
+				if (stareCurentă === "WORK") {
+					statusEl.innerText = texteTraduse[limba].WORK;
+					statusEl.style.color = "#e82d74";
+				}
+				if (stareCurentă === "REST") {
+					statusEl.innerText = texteTraduse[limba].REST;
+					statusEl.style.color = "#a6d100";
+				}
+				if (stareCurentă === "RECOVERY") {
+					statusEl.innerText = texteTraduse[limba].RECOVERY;
+					statusEl.style.color = "#3598db";
+				}
+			}
+		}
 
         function opresteSiRevino() {
             clearInterval(timerInterval);
