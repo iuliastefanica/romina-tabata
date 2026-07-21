@@ -79,15 +79,35 @@ h1 {
 #page-settings {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ocupă întreaga înălțime a ecranului */
+    
+    /* 100dvh se adaptează exact la spațiul util din browserul mobil */
+    height: 100vh; 
+    height: 100dvh; 
+    
     box-sizing: border-box;
-    padding: 24px;
-    padding-bottom: calc(24px + env(safe-area-inset-bottom)); /* Protecție pentru ecranul de iPhone/Android fără butoane */
+    padding: 12px 16px;
+    
+    /* Adăugăm padding pentru bara de gesturi de jos (iPhone/Android) */
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 12px));
+    
+    /* Prevenim ca pagina întreagă să depășească ecranul */
+    overflow: hidden; 
 }
 
+/* Zona care conține Logo, Titlu și Câmpuri (aceasta va face scroll dacă nu are loc) */
 .settings-content {
-    flex: 1; /* Ocupă tot spațiul disponibil sus */
-    overflow-y: auto; /* Permite scroll doar pe setări dacă ecranul e foarte mic */
+    flex: 1;
+    overflow-y: auto; /* Activează scroll-ul DOAR pentru câmpuri dacă ecranul e prea mic */
+    -webkit-overflow-scrolling: touch; /* Scroll fluent pe iPhone */
+    padding-bottom: 10px;
+}
+
+/* Stil pentru logo ca să nu devină uriaș pe ecrane mari */
+.settings-content img {
+    max-height: 50px; /* Limitează înălțimea logo-ului */
+    width: auto;
+    display: block;
+    margin: 0 auto 8px auto; /* Centrează logo-ul */
 }
 
 .setting-field { 
@@ -190,6 +210,7 @@ div#eroare-setari {
 	margin-top: 12px; 
 	display: none; 
 	text-align: center;
+	flex-shrink: 0; /* Împiedică strivirea mesajului */
 }
 
 /* Pagina completă a Timerului - Optimizată dinamic */
@@ -338,6 +359,7 @@ button:active {
 	width: 100%; 
 	font-weight: 400; 
 	margin-top: 24px; 
+	flex-shrink: 0; /* Împiedică strivirea butonului */
 }
 
 .btn-pause, .btn-stop { 
