@@ -1,0 +1,327 @@
+/* Resetări globale */
+
+/* 1. Definirea variabilelor de culoare pe :root */
+:root {
+	--color-prepare: #ffffff;
+	--color-work: #e82d74;
+	--color-rest: #a6d100;
+	--color-recovery: #3598db;
+	--color-butoane: rgb(40, 40, 40);
+	
+	/* Variabila dinamică ce se va schimba în funcție de stare */
+	--current-color: var(--color-prepare);
+	--current-text-color: #000000;
+}
+
+/* 2. Maparea culorilor pe stări */
+[data-state="PREPARE"] {
+	--current-color: var(--color-prepare);
+	--current-text-color: #000000;
+}
+[data-state="WORK"] {
+	--current-color: var(--color-work);
+	--current-text-color: #ffffff;
+}
+[data-state="REST"] {
+	--current-color: var(--color-rest);
+	--current-text-color: #000000;
+}
+[data-state="RECOVERY"] {
+	--current-color: var(--color-recovery);
+	--current-text-color: #ffffff;
+}
+
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #121212;
+	overflow: hidden;
+}
+
+body { 
+	text-align: center; 
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+	color: white; 
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	min-height: 100dvh; /* Rezolvare nativă modernă pentru barele browserului */
+}
+
+h1 { 
+	color: #e82d74; 
+	font-size: 24px; 
+	margin-top: 0;
+	margin-bottom: 25px; 
+	text-transform: uppercase;
+	font-family: 'Archivo', sans-serif;
+	font-weight: 700;
+}
+
+/* Pagina de Setări */
+#page-settings {
+	padding: 20px; 
+	width: 90%;
+	max-width: 380px; 
+	display: block;
+}
+
+.setting-field { 
+	margin-bottom: 12px; 
+	display: flex; 
+	justify-content: space-between; 
+	align-items: center; 
+}
+.setting-field label { 
+	font-family: 'Archivo', sans-serif;
+	font-weight: 300; 
+	font-size: 16px; 
+	color: #ccc; 
+	text-align: left; 
+	padding-right: 10px; 
+}
+.setting-field input, 
+.setting-field select { 
+	width: 80px; 
+	padding: 10px 5px; 
+	text-align: center; 
+	font-size: 18px; 
+	border-radius: 10px; 
+	border: 1px solid #333; 
+	background: #2a2a2a; 
+	color: white; 
+	font-family: 'Archivo', sans-serif;
+	font-weight: 700; 
+}
+
+input[type="number"]:focus, select:focus {
+	border-color: #e82d74; /* Culoarea de accent (rozul tău de WORK) */
+	background-color: #333; /* O nuanță puțin mai deschisă la focus */
+	border-width: 2px;
+}
+
+/* Aliniere label cu iconiță */
+.setting-field label {
+	display: flex;
+	align-items: center;
+	gap: 8px; /* Spațiu între iconiță și text */
+}
+
+/* Dimensiunea și culoarea iconițelor din setări */
+.setting-icon {
+	width: 18px;
+	height: 18px;
+	fill: #ccc; /* Culoarea roz de accent a aplicației */
+	flex-shrink: 0;
+}
+
+/* Culori iconite setari*/
+.setting-pregatire .setting-icon,
+.setting-voce .setting-icon {fill: #ccc; /* Alb */}
+.setting-cicluri .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-seturi .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-workout .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-rest .setting-icon {fill: var(--color-rest); /* Verde */}
+.setting-recovery .setting-icon {fill: var(--color-recovery); /* Albastru */}
+
+/* Pagina completă a Timerului - Optimizată dinamic */
+#page-timer { 
+	display: none; 
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh; /* Previne împingerea sub controalele browserului */
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 25px 20px 15px 20px; /* Padding ajustat pentru siguranță jos */
+	background: #121212;
+	transition: background 0.3s ease;
+}
+
+/* Containerul pentru Status (Stare + Subtitlu Pauză) */
+.status-container {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	min-height: 70px; 
+}
+
+#status { 
+	font-family: 'Archivo', sans-serif;
+	font-weight: 300; 
+	font-size: 38px; 
+	text-transform: uppercase; 
+	color: var(--current-color);
+}
+
+#sub-status {
+	font-family: 'Archivo', sans-serif;
+	font-weight: 300; 
+	font-size: 18px;
+	color: #ffffff;
+	text-transform: uppercase;
+	visibility: hidden; 
+	margin-top: 12px;
+}
+
+/* Partea de mijloc (Cronometrul uriaș în Bebas Neue) */
+.timer-container {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+#timer { 
+	font-size: 46vw; 
+	font-weight: normal; 
+	color: #e82d74; 
+	font-family: 'Bebas Neue', sans-serif;
+	line-height: 0.9;
+}
+
+/* Zona de jos */
+.bottom-container {
+	width: 100%;
+	max-width: 400px;
+	margin-bottom: 10px; /* Ridică ușor întregul grup de butoane */
+}
+
+/* Layout pe 3 coloane pentru statistici */
+.stats-row {
+	width: 100%;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.stat-box {
+	display: inline-block;
+	width: 32%;
+	vertical-align: top;
+	text-align: center;
+}
+
+.stat-label {
+	font-family: 'Archivo', sans-serif;
+	font-weight: 300; 
+	font-size: 16px; /* Modificat la 16px */
+	color: #aaa;
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 8px; 
+}
+
+.stat-value {
+	font-family: 'Bebas Neue', sans-serif;
+	font-size: 56px; /* Modificat la 56px */
+	color: white;
+	display: block;
+	line-height: 1;
+}
+
+.buttons-row {
+	display: flex;
+	gap: 8px;
+	width: 100%;
+}
+
+.btn-control {
+	background: rgb(40, 40, 40);
+	color: white;
+	flex: 1;
+	padding: 16px 10px;
+	border-radius: 50px;
+	transition: transform 0.1s ease, background 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-icon {
+	width: 24px;
+	height: 24px;
+	fill: currentColor;
+}
+
+/* Butoane optimizate */
+button { 
+	font-family: 'Archivo', sans-serif;
+	font-weight: 300; 
+	font-size: 18px; 
+	padding: 16px 10px; 
+	cursor: pointer; 
+	border: none; 
+	border-radius: 50px; 
+	transition: transform 0.1s ease, background 0.2s;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px; 
+}
+
+button:active {
+	transform: scale(0.96);
+}
+
+.btn-start { 
+	background: #e82d74; 
+	color: white; 
+	width: 100%; 
+	font-weight: 400; 
+	margin-top: 25px; 
+}
+
+.btn-pause, .btn-stop { 
+	background: rgb(40, 40, 40); 
+	color: white; 
+	flex: 1; 
+	width: 50%;
+	transition: background 0.2s, color 0.2s, transform 0.1s ease; 
+}
+
+.btn-icon {
+	fill: currentColor;
+	flex-shrink: 0; 
+}
+
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 0.1; }
+	100% { opacity: 1; }
+}
+
+/* Clasa aplicata cand este in pauza */
+.blink-icon {
+	animation: blink 1s infinite;
+}
+
+/* Stil pentru SVG-ul din sub-status */
+#sub-status svg {
+	width: 36px;
+	height: 36px;
+	fill: #ffffff;
+	display: block;
+}
+
+#timer {
+	color: var(--current-color); /* Timerul își schimbă culoarea automat */
+}
+
+/* Stil când butoanele sunt dezactivate în pauză */
+body.in-pauza #btn-skip,
+body.in-pauza #btn-back {
+	opacity: 0.3;              /* Le face semi-transparente */
+	cursor: not-allowed;       /* Arată cursor de dezactivat pe desktop */
+	pointer-events: none;      /* Blochează complet click-ul / atingerea */
+}
