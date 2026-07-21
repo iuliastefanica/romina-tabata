@@ -23,288 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     
-    <style>
-        /* Resetări globale */
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: #121212;
-            overflow: hidden;
-        }
-
-        body { 
-            text-align: center; 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            color: white; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            min-height: 100dvh; /* Rezolvare nativă modernă pentru barele browserului */
-        }
-
-        h1 { 
-            color: #e82d74; 
-            font-size: 24px; 
-            margin-top: 0;
-            margin-bottom: 25px; 
-            text-transform: uppercase;
-            font-family: 'Archivo', sans-serif;
-            font-weight: 700;
-        }
-
-        /* Pagina de Setări */
-        #page-settings {
-            padding: 20px; 
-            width: 90%;
-            max-width: 380px; 
-            display: block;
-        }
-
-        .setting-field { 
-            margin-bottom: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .setting-field label { 
-            font-family: 'Archivo', sans-serif;
-            font-weight: 300; 
-            font-size: 16px; 
-            color: #ccc; 
-            text-align: left; 
-            padding-right: 10px; 
-        }
-        .setting-field input { 
-            width: 80px; 
-            padding: 12px 5px; 
-            text-align: center; 
-            font-size: 18px; 
-            border-radius: 10px; 
-            border: 1px solid #333; 
-            background: #2a2a2a; 
-            color: white; 
-            font-family: 'Archivo', sans-serif;
-            font-weight: 700; 
-        }
-		
-		input[type="number"]:focus, select:focus {
-			border-color: #e82d74; /* Culoarea de accent (rozul tău de WORK) */
-			background-color: #333; /* O nuanță puțin mai deschisă la focus */
-			border-width: 2px;
-		}
-		
-		/* Aliniere label cu iconiță */
-		.setting-field label {
-			display: flex;
-			align-items: center;
-			gap: 8px; /* Spațiu între iconiță și text */
-		}
-
-		/* Dimensiunea și culoarea iconițelor din setări */
-		.setting-icon {
-			width: 18px;
-			height: 18px;
-			fill: #ccc; /* Culoarea roz de accent a aplicației */
-			flex-shrink: 0;
-		}
-		
-		/* Culori iconite setari*/
-		.setting-pregatire .setting-icon {fill: #ccc; /* Alb */}
-		.setting-cicluri .setting-icon {fill: #e82d74; /* Culoarea roz de accent a aplicației */}
-		.setting-seturi .setting-icon {fill: #e82d74; /* Culoarea roz de accent a aplicației */}
-		.setting-workout .setting-icon {fill: #e82d74; /* Culoarea roz de accent a aplicației */}
-		.setting-rest .setting-icon {fill: rgb(166, 209, 0); /* Verde */}
-		.setting-recovery .setting-icon {fill: rgb(53, 152, 219); /* Albastru */}
-
-        /* Pagina completă a Timerului - Optimizată dinamic */
-        #page-timer { 
-            display: none; 
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh; /* Previne împingerea sub controalele browserului */
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 20px 15px 20px; /* Padding ajustat pentru siguranță jos */
-            background: #121212;
-            transition: background 0.3s ease;
-        }
-
-        /* Containerul pentru Status (Stare + Subtitlu Pauză) */
-        .status-container {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            min-height: 70px; 
-        }
-
-        #status { 
-            font-family: 'Archivo', sans-serif;
-            font-weight: 300; 
-            font-size: 38px; 
-            text-transform: uppercase; 
-        }
-
-        #sub-status {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 300; 
-            font-size: 18px;
-            color: #ffffff;
-            text-transform: uppercase;
-            visibility: hidden; 
-			margin-top: 24px;
-        }
-
-        /* Partea de mijloc (Cronometrul uriaș în Bebas Neue) */
-        .timer-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-        #timer { 
-            font-size: 46vw; 
-            font-weight: normal; 
-            color: #e82d74; 
-            font-family: 'Bebas Neue', sans-serif;
-            line-height: 0.9;
-        }
-
-        /* Zona de jos */
-        .bottom-container {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 10px; /* Ridică ușor întregul grup de butoane */
-        }
-
-        /* Layout pe 3 coloane pentru statistici */
-        .stats-row {
-            width: 100%;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .stat-box {
-            display: inline-block;
-            width: 32%;
-            vertical-align: top;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 300; 
-            font-size: 16px; /* Modificat la 16px */
-            color: #aaa;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 8px; 
-        }
-
-        .stat-value {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 56px; /* Modificat la 56px */
-            color: white;
-            display: block;
-            line-height: 1;
-        }
-
-        .buttons-row {
-			display: flex;
-			gap: 8px;
-			width: 100%;
-		}
-
-		.btn-control {
-			background: rgb(40, 40, 40);
-			color: white;
-			flex: 1;
-			padding: 16px 10px;
-			border-radius: 50px;
-			transition: transform 0.1s ease, background 0.2s;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.btn-icon {
-			width: 24px;
-			height: 24px;
-			fill: currentColor;
-		}
-
-        /* Butoane optimizate */
-        button { 
-            font-family: 'Archivo', sans-serif;
-            font-weight: 300; 
-            font-size: 18px; 
-            padding: 16px 10px; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 50px; 
-            transition: transform 0.1s ease, background 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px; 
-        }
-        
-        button:active {
-            transform: scale(0.96);
-        }
-
-        .btn-start { 
-            background: #e82d74; 
-            color: white; 
-            width: 100%; 
-            font-weight: 400; 
-            margin-top: 25px; 
-        }
-        
-        .btn-pause, .btn-stop { 
-            background: rgb(40, 40, 40); 
-            color: white; 
-            flex: 1; 
-            width: 50%;
-            transition: background 0.2s, color 0.2s, transform 0.1s ease; 
-        }
-        
-        .btn-icon {
-            fill: currentColor;
-            flex-shrink: 0; 
-        }
-		
-		@keyframes blink {
-			0% { opacity: 1; }
-			50% { opacity: 0.1; }
-			100% { opacity: 1; }
-		}
-
-		/* Clasa aplicata cand este in pauza */
-		.blink-icon {
-			animation: blink 1s infinite;
-		}
-
-		/* Stil pentru SVG-ul din sub-status */
-		#sub-status svg {
-			width: 28px;
-			height: 28px;
-			fill: #ffffff;
-			display: block;
-		}
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -372,12 +91,12 @@
 		</div>
 
 		<!-- Voce -->
-		<div class="setting-field">
+		<div class="setting-field setting-voce">
 			<label>
-				<svg class="setting-icon setting-voce" viewBox="0 -960 960 960"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"/></svg>
+				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"/></svg>
 				Limbă voce:
 			</label>
-			<select id="selectVoce" style="width: 80px; padding: 12px 5px; text-align: center; font-size: 16px; border-radius: 10px; border: 1px solid #333; background: #2a2a2a; color: white; font-family: 'Archivo', sans-serif;">
+			<select id="selectVoce">
 				<option value="romana">Ro</option>
 				<option value="engleza">Eng</option>
 			</select>
@@ -420,7 +139,7 @@
                     <span id="stat-exercitiu" class="stat-value">1/4</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label">Timp Total</span>
+                    <span class="stat-label">Timp rămas</span>
                     <span id="stat-total" class="stat-value">00:00</span>
                 </div>
             </div>
@@ -532,12 +251,16 @@
 			rundaCurenta = planAntrenament[indexCurent].runda;
 			cicluCurent = planAntrenament[indexCurent].ciclu;
 			timpTotalRamas = planAntrenament[indexCurent].startTime;
+			
+			document.body.setAttribute("data-state", stareCurentă);
+			
+			const state = document.body.getAttribute("data-state");
+			
 		}
-
+		
 		function backStare() {
 			// Verificăm dacă nu suntem deja la prima stare (index 0)
 			if (indexCurent > 0) {
-			console.log("Index curent", indexCurent);
 				// 1. Scădem indexul pentru a ne întoarce la starea anterioară
 				indexCurent--;
 			} else {
@@ -545,7 +268,7 @@
 			}
 			// 2. Sincronizăm toate variabilele globale cu noua stare din istoric
 			actualizeazaStareCurenta();
-				
+			
 			// 3. Pornim cronometrul la noua stare
 			pornesteStare(planAntrenament[indexCurent].stare, planAntrenament[indexCurent].durata);
 		}
@@ -553,8 +276,6 @@
 		function skipStare() {
 			timpRamas = 1;
 			schimbaStarea();
-			// 2. Sincronizăm toate variabilele globale cu noua stare din istoric
-			actualizeazaStareCurenta();
 		}
 		
 
@@ -664,19 +385,17 @@
 					};
 
 					timpTotalRamas = calculeazaTimpTotalInitial();
-					
-					// 2. Afișăm în consolă să vedem dacă sunt valorile corecte
-					console.log("--- Setări preluate din input-uri ---");
-					console.table(setari); // console.table afișează datele foarte frumos sub formă de tabel
 					planAntrenament.length = 0;
-					
 					genereazaPlanAntrenament();
-					
 			} 
-			
 			
 			indexCurent = 0;
 			actualizeazaStareCurenta();
+			
+			// Activam butoanele de skip si back
+			document.getElementById("btn-skip").disabled = false;
+			document.getElementById("btn-back").disabled = false;
+			document.body.classList.remove("in-pauza");
 			
             document.getElementById("page-settings").style.display = "none";
             document.getElementById("page-timer").style.display = "flex";
@@ -694,11 +413,11 @@
             esteInPauza = false;
             
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_PAUSE);
-            btnPauza.style.background = "rgb(40, 40, 40)";
+            btnPauza.style.background = "var(--color-butoane)";
             btnPauza.style.color = "white";
             
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_STOP);
-            btnStop.style.background = "rgb(40, 40, 40)";
+            btnStop.style.background = "var(--color-butoane)";
             btnStop.style.color = "white";
 
             document.getElementById("sub-status").style.visibility = "hidden";
@@ -728,14 +447,17 @@
 
 			esteInPauza = !esteInPauza; 
 			const btnPauza = document.getElementById("btn-pauza");
+			const btnSkip = document.getElementById("btn-skip");
+			const btnBack = document.getElementById("btn-back");
 			const subStatusEl = document.getElementById("sub-status");
 			const statusEl = document.getElementById("status");
 			const iconPath = document.getElementById("icon-pauza-stare").querySelector("path");
 			const limba = document.getElementById("selectVoce").value;
 			
 			if (esteInPauza) {
-				dezactiveazaWakeLock();
+				//dezactiveazaWakeLock();
 				iconPath.setAttribute("d", SVG_PLAY);
+				document.body.classList.add("in-pauza");
 				
 				if (stareCurentă === "WORK") {
 					btnPauza.style.background = "#e82d74"; 
@@ -751,34 +473,48 @@
 					btnPauza.style.color = "#000000";      
 				}
 				
+				//btnPauza.style.background = "var(--current-color)"; 
+				//btnPauza.style.color = "var(--current-text-color)";   
+				
+				// Dezctivăm butoanele
+				btnSkip.disabled = true;
+				btnBack.disabled = true;
+		
 				// Afișăm SVG-ul de sus și îi dăm clasa de clipocire
 				subStatusEl.style.visibility = "visible";
 				subStatusEl.classList.add("blink-icon");
 			} else {
-				activeazaWakeLock();
+				//activeazaWakeLock();
 				iconPath.setAttribute("d", SVG_PAUSE);
-				btnPauza.style.background = "rgb(40, 40, 40)"; 
+				document.body.classList.remove("in-pauza");
+				
+				btnPauza.style.background = "var(--color-butoane)"; 
 				btnPauza.style.color = "white"; 
 				
 				// Ascundem SVG-ul și oprim animația
 				subStatusEl.style.visibility = "hidden";
 				subStatusEl.classList.remove("blink-icon");
+				
+				// Reactivăm butoanele
+				btnSkip.disabled = false;
+				btnBack.disabled = false;
+
 
 				if (stareCurentă === "PREPARE") {
 					statusEl.innerText = texteTraduse[limba].PREPARE;
-					statusEl.style.color = "#ffffff";
+					statusEl.style.color = "var(--color-prepare)";
 				}
 				if (stareCurentă === "WORK") {
 					statusEl.innerText = texteTraduse[limba].WORK;
-					statusEl.style.color = "#e82d74";
+					statusEl.style.color = "var(--color-work)";
 				}
 				if (stareCurentă === "REST") {
 					statusEl.innerText = texteTraduse[limba].REST;
-					statusEl.style.color = "#a6d100";
+					statusEl.style.color = "var(--color-rest)";
 				}
 				if (stareCurentă === "RECOVERY") {
 					statusEl.innerText = texteTraduse[limba].RECOVERY;
-					statusEl.style.color = "#3598db";
+					statusEl.style.color = "var(--color-recovery)";
 				}
 			}
 		}
@@ -804,26 +540,26 @@
             if (!esteInPauza) {
                 if (stare === "PREPARE") {
                     statusEl.innerText = texteTraduse[limba].PREPARE;
-                    statusEl.style.color = "#ffffff";
-                    timerEl.style.color = "#ffffff";
+                    statusEl.style.color = "var(--color-prepare)";
+                    timerEl.style.color = "var(--color-prepare)";
                     bodyEl.style.background = "#121212";
                     redaSunetVocal("getready.mp3");
                 } else if (stare === "WORK") {
                     statusEl.innerText = texteTraduse[limba].WORK;
-                    statusEl.style.color = "#e82d74";
-                    timerEl.style.color = "#e82d74";
+                    statusEl.style.color = "var(--color-work)";
+                    timerEl.style.color = "var(--color-work)";
                     bodyEl.style.background = "#121212";
                     redaSunetVocal("exercise.mp3");
                 } else if (stare === "REST") {
                     statusEl.innerText = texteTraduse[limba].REST;
-                    statusEl.style.color = "#a6d100";
-                    timerEl.style.color = "#a6d100";
+                    statusEl.style.color = "var(--color-rest)";
+                    timerEl.style.color = "var(--color-rest)";
                     bodyEl.style.background = "#131610";
                     redaSunetVocal("rest.mp3");
                 } else if (stare === "RECOVERY") {
                     statusEl.innerText = texteTraduse[limba].RECOVERY;
-                    statusEl.style.color = "#3598db";
-                    timerEl.style.color = "#3598db";
+                    statusEl.style.color = "var(--color-recovery)";
+                    timerEl.style.color = "var(--color-recovery)";
                     bodyEl.style.background = "#101316";
                     redaSunetVocal("recovery.mp3");
                 }
@@ -859,14 +595,7 @@
 					terminaAntrenament();
 				} else {
 					indexCurent++;
-					/*stareCurenta = planAntrenament[indexCurent];
-					cicluCurent = stareCurenta.ciclu;
-					rundaCurenta = stareCurenta.runda;
-					*/
 					actualizeazaStareCurenta();
-					console.log("--- Index curent: ---", indexCurent);
-					console.log("--- Stare noua: ---", stareCurenta.stare);
-					console.log("--- Durata stare noua: ---", stareCurenta.durata);
 					pornesteStare(planAntrenament[indexCurent].stare, planAntrenament[indexCurent].durata);
 				}
 			}
@@ -905,7 +634,7 @@
             document.getElementById("status").style.color = "#ffffff";
             document.getElementById("sub-status").style.visibility = "hidden";
             
-            document.getElementById("timer").innerText = "00:00";
+            document.getElementById("timer").innerText = "GATA!";
             document.getElementById("timer").style.color = "#ffffff";
             document.body.style.background = "#121212";
 
@@ -915,13 +644,13 @@
             //document.getElementById("text-pauza").innerText = "RESTART";
             document.getElementById("icon-pauza-stare").querySelector("path").setAttribute("d", SVG_REPLAY);
             btnPauza.setAttribute("onclick", "comutaLaTimer('btn-pauza')");
-            btnPauza.style.background = "#e82d74"; 
+            btnPauza.style.background = "var(--color-work)"; 
             btnPauza.style.color = "#ffffff";
 
             //document.getElementById("text-stop").innerText = "SETĂRI";
             document.getElementById("icon-stop-stare").querySelector("path").setAttribute("d", SVG_SETTINGS);
             btnStop.setAttribute("onclick", "opresteSiRevino()");
-            btnStop.style.background = "rgb(40, 40, 40)";
+            btnStop.style.background = "var(--color-butoane)";
             btnStop.style.color = "#ffffff";
 			
 			document.getElementById("btn-skip").style.display = "none";
