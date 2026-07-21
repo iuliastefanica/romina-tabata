@@ -236,6 +236,56 @@
 				"PREPARE": setari.pregatire 
 		};
 		
+		const STORAGE_KEY = "romina_tabata_settings";
+		
+		// -------------------------------------------------------------
+		// FUNCȚII LOCALSTORAGE (SALVARE ȘI ÎNCĂRCARE SETĂRI)
+		// -------------------------------------------------------------
+		function salveazaSetarile() {
+			const dateSalvate = {
+				pregatire: document.getElementById("inputPregatire")?.value || "7",
+				cicluri: document.getElementById("inputCicluri")?.value || "4",
+				runde: document.getElementById("inputRunde")?.value || "10",
+				workout: document.getElementById("inputWorkout")?.value || "30",
+				rest: document.getElementById("inputRest")?.value || "15",
+				recovery: document.getElementById("inputRecovery")?.value || "90",
+				voce: document.getElementById("selectVoce")?.value || "romana"
+			};
+
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(dateSalvate));
+		}
+
+		function incarcaSetarile() {
+			const setariSalvate = localStorage.getItem(STORAGE_KEY);
+			if (!setariSalvate) return;
+
+			try {
+				const date = JSON.parse(setariSalvate);
+
+				if (date.pregatire !== undefined) document.getElementById("inputPregatire").value = date.pregatire;
+				if (date.cicluri !== undefined) document.getElementById("inputCicluri").value = date.cicluri;
+				if (date.runde !== undefined) document.getElementById("inputRunde").value = date.runde;
+				if (date.workout !== undefined) document.getElementById("inputWorkout").value = date.workout;
+				if (date.rest !== undefined) document.getElementById("inputRest").value = date.rest;
+				if (date.recovery !== undefined) document.getElementById("inputRecovery").value = date.recovery;
+				if (date.voce !== undefined) document.getElementById("selectVoce").value = date.voce;
+			} catch (e) {
+				console.error("Eroare la încărcarea setărilor din localStorage:", e);
+			}
+		}
+
+		// Încărcăm setările imediat ce s-a încărcat structura DOM
+		document.addEventListener("DOMContentLoaded", () => {
+			incarcaSetarile();
+
+			// Salvează când se schimbă limba vocii
+			const selectVoce = document.getElementById("selectVoce");
+			if (selectVoce) {
+				selectVoce.addEventListener("change", salveazaSetarile);
+			}
+		});
+		
+		
 		// Funcția apelată la apăsarea butoanelor + sau -
 		function stepValue(idInput, pas) {
 			const input = document.getElementById(idInput);
@@ -256,6 +306,9 @@
 			// Scoatem alte opțiuni active și o activăm doar pe aceasta
 			document.querySelectorAll(".input-stepper input").forEach(i => i.classList.remove("is-active"));
 			input.classList.add("is-active");
+			
+			// Salvează noile setări
+			salveazaSetarile();
 		}
 		
 		// Dacă utilizatorul dă click în afara câmpurilor, stinge chenarul
@@ -271,6 +324,7 @@
 			// Elimină caracterele nedorite (ex: - , . e) în timp ce tastezi
 			input.addEventListener("input", (e) => {
 				e.target.value = e.target.value.replace(/[^0-9]/g, '');
+				salveazaSetarile();
 			});
 
 			// La părăsirea câmpului, dacă e gol sau mai mic decât minimul, resetează la minim
@@ -285,6 +339,7 @@
 			
 			input.addEventListener("blur", () => {
 				input.classList.remove("is-active");
+				salveazaSetarile();
 			});
 			
 			// Când dai click direct în orice câmp pentru a-l edita:
