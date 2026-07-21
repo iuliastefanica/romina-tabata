@@ -68,15 +68,30 @@ h1 {
 }
 
 /* Pagina de Setări */
-#page-settings {
+/*#page-settings {
 	padding: 20px; 
 	width: 90%;
 	max-width: 380px; 
 	display: block;
+}*/
+
+/* Containerul principal al paginii de setări */
+#page-settings {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupă întreaga înălțime a ecranului */
+    box-sizing: border-box;
+    padding: 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom)); /* Protecție pentru ecranul de iPhone/Android fără butoane */
+}
+
+.settings-content {
+    flex: 1; /* Ocupă tot spațiul disponibil sus */
+    overflow-y: auto; /* Permite scroll doar pe setări dacă ecranul e foarte mic */
 }
 
 .setting-field { 
-	margin-bottom: 10px; 
+	margin-bottom: 12px; 
 	display: flex; 
 	justify-content: space-between; 
 	align-items: center; 
@@ -167,6 +182,16 @@ input:-webkit-autofill:active {
 	{border: 2px solid var(--color-recovery); /* Albastru */}
 
 
+div#eroare-setari {
+	color: var(--color-work); 
+	font-family: Archivo;
+	font-weight: 300;
+	font-size: 16px;
+	margin-top: 12px; 
+	display: none; 
+	text-align: center;
+}
+
 /* Pagina completă a Timerului - Optimizată dinamic */
 #page-timer { 
 	display: none; 
@@ -176,7 +201,7 @@ input:-webkit-autofill:active {
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	padding: 25px 20px 15px 20px; /* Padding ajustat pentru siguranță jos */
+	padding: 25px 20px 24px 20px; /* Padding ajustat pentru siguranță jos */
 	background: #121212;
 	transition: background 0.3s ease;
 }
@@ -229,7 +254,6 @@ input:-webkit-autofill:active {
 .bottom-container {
 	width: 100%;
 	max-width: 400px;
-	margin-bottom: 10px; /* Ridică ușor întregul grup de butoane */
 }
 
 /* Layout pe 3 coloane pentru statistici */
@@ -313,7 +337,7 @@ button:active {
 	color: white; 
 	width: 100%; 
 	font-weight: 400; 
-	margin-top: 25px; 
+	margin-top: 24px; 
 }
 
 .btn-pause, .btn-stop { 
