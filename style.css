@@ -96,7 +96,7 @@ h1 {
 	text-align: center; 
 	font-size: 18px; 
 	border-radius: 10px; 
-	border: 1px solid #333; 
+	border: 2px solid #2a2a2a; 
 	background: #2a2a2a; 
 	color: white; 
 	font-family: 'Archivo', sans-serif;
@@ -155,16 +155,16 @@ input:-webkit-autofill:active {
 
 .setting-pregatire input:focus, .setting-voce select:focus,
 .setting-pregatire input:active, .setting-voce select:active 
-	{border: 1px solid #ccc; /* Alb */}
+	{border: 2px solid #ccc; /* Alb */}
 .setting-cicluri input:focus, .setting-seturi input:focus, .setting-workout input:focus, 
 .setting-cicluri input:active, .setting-seturi input:active, .setting-workout input:active 
-	{border: 1px solid var(--color-work); /* Culoarea roz de accent a aplicației */}
+	{border: 2px solid var(--color-work); /* Culoarea roz de accent a aplicației */}
 .setting-rest input:focus,
 .setting-rest input:active
-	{border: 1px solid var(--color-rest); /* Verde */}
+	{border: 2px solid var(--color-rest); /* Verde */}
 .setting-recovery input:focus, 
 .setting-recovery input:active 
-	{border: 1px solid var(--color-recovery); /* Albastru */}
+	{border: 2px solid var(--color-recovery); /* Albastru */}
 
 
 /* Pagina completă a Timerului - Optimizată dinamic */
