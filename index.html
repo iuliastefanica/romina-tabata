@@ -31,75 +31,81 @@
     <audio id="audioBip" src="sunete/bip.mp3" preload="auto"></audio>
     <audio id="audioVocal" preload="auto"></audio>
 
-<!-- PAGINA DE SETĂRI -->
-<div id="page-settings">
-    <img src="tabata-romina-logo.svg" alt="Logo" style="width: 50px; max-width: 200px; margin-bottom: 8px;">
-    <h1>ROMINA'S<br/>BASIC INTERVAL TIMER<br/>FĂRĂ RECLAME</h1>
-    
-    <!-- Pregătire (Ceas) -->
-		<div class="setting-field setting-pregatire">
-			<label>
-				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
-				Pregătire (secunde):
-			</label>
-			<input type="number" id="inputPregatire" value="7" min="0" inputmode="numeric">
-		</div>
+	<!-- PAGINA DE SETĂRI -->
+	<div id="page-settings">
+		<div class="settings-content">
+			<img src="tabata-romina-logo.svg" alt="Logo" style="width: 50px; max-width: 200px; margin-bottom: 8px;">
+			<h1>ROMINA'S<br/>BASIC INTERVAL TIMER<br/>FĂRĂ RECLAME</h1>
+			
+			<!-- Pregătire (Ceas) -->
+			<div class="setting-field setting-pregatire">
+				<label>
+					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+					Pregătire (secunde):
+				</label>
+				<input type="number" id="inputPregatire" value="7" min="0" inputmode="numeric">
+			</div>
 
-		<!-- Cicluri Totale (Diez #) -->
-		<div class="setting-field setting-cicluri">
-			<label>
-				<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
-				Cicluri totale:
-			</label>
-			<input type="number" id="inputCicluri" value="4" min="1" inputmode="numeric">
-		</div>
+			<!-- Cicluri Totale (Diez #) -->
+			<div class="setting-field setting-cicluri">
+				<label>
+					<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
+					Cicluri totale:
+				</label>
+				<input type="number" id="inputCicluri" value="4" min="1" inputmode="numeric">
+			</div>
 
-		<!-- Exerciții per ciclu (Diez #) -->
-		<div class="setting-field setting-seturi">
-			<label>
-				<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
-				Exerciții per ciclu:
-			</label>
-			<input type="number" id="inputRunde" value="10" min="1" inputmode="numeric">
-		</div>
+			<!-- Exerciții per ciclu (Diez #) -->
+			<div class="setting-field setting-seturi">
+				<label>
+					<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
+					Exerciții per ciclu:
+				</label>
+				<input type="number" id="inputRunde" value="10" min="1" inputmode="numeric">
+			</div>
 
-		<!-- Workout (Ceas) -->
-		<div class="setting-field setting-workout">
-			<label>
-				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
-				Workout (secunde):
-			</label>
-			<input type="number" id="inputWorkout" value="30" min="5" inputmode="numeric">
-		</div>
+			<!-- Workout (Ceas) -->
+			<div class="setting-field setting-workout">
+				<label>
+					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+					Workout (secunde):
+				</label>
+				<input type="number" id="inputWorkout" value="30" min="5" inputmode="numeric">
+			</div>
 
-		<!-- Rest (Ceas) -->
-		<div class="setting-field setting-rest">
-			<label>
-				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
-				Rest (secunde):
-			</label>
-			<input type="number" id="inputRest" value="15" min="0" inputmode="numeric">
-		</div>
+			<!-- Rest (Ceas) -->
+			<div class="setting-field setting-rest">
+				<label>
+					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+					Rest (secunde):
+				</label>
+				<input type="number" id="inputRest" value="15" min="0" inputmode="numeric">
+			</div>
 
-		<!-- Recovery (Ceas) -->
-		<div class="setting-field setting-recovery">
-			<label>
-				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
-				Recovery (secunde):
-			</label>
-			<input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
-		</div>
+			<!-- Recovery (Ceas) -->
+			<div class="setting-field setting-recovery">
+				<label>
+					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+					Recovery (secunde):
+				</label>
+				<input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
+			</div>
 
-		<!-- Voce -->
-		<div class="setting-field setting-voce">
-			<label>
-				<svg class="setting-icon" viewBox="0 -960 960 960"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"/></svg>
-				Limbă voce:
-			</label>
-			<select id="selectVoce">
-				<option value="romana">Ro</option>
-				<option value="engleza">Eng</option>
-			</select>
+			<!-- Voce -->
+			<div class="setting-field setting-voce">
+				<label>
+					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"/></svg>
+					Limbă voce:
+				</label>
+				<select id="selectVoce">
+					<option value="romana">Ro</option>
+					<option value="engleza">Eng</option>
+				</select>
+			</div>
+		</div>
+		
+		<div id="eroare-setari">
+			Completează toate câmpurile!
 		</div>
 
 		<button id="btn-start" class="btn-start" onclick="comutaLaTimer(this.id)">
@@ -210,6 +216,35 @@
 				"PREPARE": setari.pregatire 
 		};
 		
+		function valideazaSetari() {
+			const inputuri = document.querySelectorAll("#page-settings input[type='number']");
+			const btnStart = document.getElementById("btn-start");
+			const eroareEl = document.getElementById("eroare-setari");
+			
+			let esteValid = true;
+
+			// Verificăm dacă există vreun câmp gol sau necompletat
+			inputuri.forEach(input => {
+				if (input.value.trim() === "") {
+					esteValid = false;
+				}
+			});
+
+			if (!esteValid) {
+				// Dezactivăm butonul și afișăm mesajul
+				btnStart.disabled = true;
+				btnStart.style.opacity = "0.5";
+				btnStart.style.cursor = "not-allowed";
+				eroareEl.style.display = "block";
+			} else {
+				// Activăm butonul și ascundem mesajul
+				btnStart.disabled = false;
+				btnStart.style.opacity = "1";
+				btnStart.style.cursor = "pointer";
+				eroareEl.style.display = "none";
+			}
+		}
+		
 		function genereazaPlanAntrenament() {			
 			// Calculăm durata totală pentru a porni de la ea în jos
 			let timpTotalRamas = calculeazaTimpTotalInitial();
@@ -230,7 +265,7 @@
 					timpTotalRamas -= setari.workout;
 
 					// 3. REST (dacă nu e ultima rundă din ultimul ciclu)
-					if (!(r === setari.runde && c === setari.cicluri)) {
+					if (setari.rest > 0 && !(r === setari.runde && c === setari.cicluri)) {
 						planAntrenament.push({ stare: "REST", runda: r, ciclu: c, durata: setari.rest, startTime: timpTotalRamas });
 						timpTotalRamas -= setari.rest;
 					}
@@ -335,41 +370,30 @@
 			
 			return total;
 		}
-		
-		function calculeazaStartTime(stare, ciclu, runda) {
-			let durataUnuiCicluComplet = (setari.workout * setari.runde) + (setari.rest * setari.runde);
-			let durataTotala = (setari.cicluri * durataUnuiCicluComplet) + ((setari.cicluri - 1) * setari.recovery) - setari.rest + setari.pregatire;
-			if (stare === "PREPARE") return durataTotala;
-			
-			let totalScurs = 0;
-
-			// 2. Calculăm timpul consumat în ciclurile complete ANTERIOARE
-			let cicluriAnterioare = ciclu - 1;
-			totalScurs += cicluriAnterioare * (durataUnuiCicluComplet + setari.recovery);
-
-			// 3. Calculăm timpul consumat în rundele complete ANTERIOARE din ciclul curent
-			let rundeAnterioareInCiclu = runda - 1;
-			totalScurs += rundeAnterioareInCiclu * (setari.workout + setari.rest);
-
-			// 4. Adăugăm timpul consumat în cadrul rundei curente, PÂNĂ la starea cerută
-			// Ordinea standard: PREPARE -> WORK -> REST
-			if (stare === "WORK") {
-				totalScurs += setari.pregatire;
-			} else if (stare === "REST") {
-				totalScurs += setari.pregatire + setari.workout;
-			}
-			// Dacă e RECOVERY, stăm la finalul rundelor, deci e deja calculat la punctul 2
-
-			// 5. startTime-ul nostru este timpul total al antrenamentului MINUS timpul scurs până la ea
-			// (sau poți returna direct 'totalScurs' dacă vrei timpul de la începutul antrenamentului)
-			
-			// Calculăm durata totală a antrenamentului
-			let startTime = durataTotala - totalScurs;
-			
-			return startTime;
-		}
 
         function comutaLaTimer(idButon) {
+		
+			const eroareEl = document.getElementById("eroare-setari");
+			const inputuri = document.querySelectorAll("#page-settings input[type='number']");
+			let esteValid = true;
+
+			// Verificăm dacă vreun câmp este necompletat / gol
+			inputuri.forEach(input => {
+				if (input.value.trim() === "") {
+					esteValid = false;
+				}
+			});
+
+			// Dacă există câmpuri necompletate, afișăm mesajul și OPRIM pornirea timerului
+			if (!esteValid) {
+				if (eroareEl) eroareEl.style.display = "block";
+				return; // Oprește executarea funcției aici
+			}
+
+			// Dacă toate câmpurile sunt valide, ascundem mesajul și continuăm
+			if (eroareEl) eroareEl.style.display = "none";
+		
+		
             ajusteazaInaltimeEcran();
             activeazaWakeLock();
             
@@ -380,7 +404,7 @@
 						cicluri: parseInt(document.getElementById("inputCicluri").value) || 4,
 						runde: parseInt(document.getElementById("inputRunde").value) || 10,
 						workout: parseInt(document.getElementById("inputWorkout").value) || 30,
-						rest: parseInt(document.getElementById("inputRest").value) || 15,
+						rest: parseInt(document.getElementById("inputRest").value) || 0,
 						recovery: parseInt(document.getElementById("inputRecovery").value) || 90
 					};
 
@@ -524,7 +548,7 @@
             dezactiveazaWakeLock();
             document.getElementById("sub-status").style.visibility = "hidden";
             document.getElementById("page-timer").style.display = "none";
-            document.getElementById("page-settings").style.display = "block";
+            document.getElementById("page-settings").style.display = "flex";
             document.body.style.background = "#121212";
         }
 
