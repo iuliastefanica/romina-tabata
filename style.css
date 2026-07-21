@@ -103,12 +103,6 @@ h1 {
 	font-weight: 700; 
 }
 
-input[type="number"]:focus, select:focus {
-	border-color: #e82d74; /* Culoarea de accent (rozul tău de WORK) */
-	background-color: #333; /* O nuanță puțin mai deschisă la focus */
-	border-width: 2px;
-}
-
 /* Aliniere label cu iconiță */
 .setting-field label {
 	display: flex;
@@ -125,13 +119,21 @@ input[type="number"]:focus, select:focus {
 }
 
 /* Culori iconite setari*/
-.setting-pregatire .setting-icon,
-.setting-voce .setting-icon {fill: #ccc; /* Alb */}
-.setting-cicluri .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
-.setting-seturi .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
-.setting-workout .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-pregatire .setting-icon, .setting-voce .setting-icon {fill: #ccc; /* Alb */}
+.setting-cicluri .setting-icon, .setting-seturi .setting-icon, .setting-workout .setting-icon {fill: var(--color-work); /* Culoarea roz de accent a aplicației */}
 .setting-rest .setting-icon {fill: var(--color-rest); /* Verde */}
 .setting-recovery .setting-icon {fill: var(--color-recovery); /* Albastru */}
+
+.setting-pregatire input:focus,
+.setting-voce select:focus {border: 1px solid #ccc; /* Alb */}
+.setting-cicluri input:focus, .setting-seturi input:focus, .setting-workout input:focus {border: 1px solid var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-rest input:focus {border: 1px solid var(--color-rest); /* Verde */}
+.setting-recovery input:focus {border: 1px solid var(--color-recovery); /* Albastru */}
+
+input:focus, select:focus {
+    outline: none;
+	background-color: #333; /* O nuanță puțin mai deschisă la focus */
+}
 
 /* Pagina completă a Timerului - Optimizată dinamic */
 #page-timer { 
