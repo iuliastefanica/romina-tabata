@@ -85,7 +85,7 @@ h1 {
     height: 100dvh; 
     
     box-sizing: border-box;
-    padding: 24px 24px;
+    padding: 24px 16px;
     
     /* Adăugăm padding pentru bara de gesturi de jos (iPhone/Android) */
     padding-bottom: calc(24px + env(safe-area-inset-bottom, 12px));
@@ -123,7 +123,12 @@ h1 {
 	color: #ccc; 
 	text-align: left; 
 	padding-right: 10px; 
+	display: flex;
+	align-items: center;
+	gap: 8px; /* Spațiu între iconiță și text */
+	margin-right: 40px;
 }
+/*
 .setting-field input, 
 .setting-field select { 
 	width: 80px; 
@@ -136,13 +141,74 @@ h1 {
 	color: white; 
 	font-family: 'Archivo', sans-serif;
 	font-weight: 700; 
+}*/
+
+/* Containerul preia lățimea de 100px pentru a avea loc și butoanele - / + */
+.input-stepper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 120px; /* Lățimea totală a câmpului */
 }
 
-/* Aliniere label cu iconiță */
-.setting-field label {
-	display: flex;
-	align-items: center;
-	gap: 8px; /* Spațiu între iconiță și text */
+/* Câmpul tău existent adaptat */
+.setting-field input, 
+.setting-field select { 
+    width: 120px; 
+    padding: 10px 24px; /* Am adăugat spațiu în stânga/dreapta ca cifrele să nu se suprapună cu - și + */
+    text-align: center; 
+    font-size: 18px; 
+    border-radius: 10px; 
+    border: 2px solid #2a2a2a; 
+    background: #2a2a2a; 
+    color: white; 
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700; 
+    box-sizing: border-box;
+}
+
+/* Butoanele de - și + din interior */
+.btn-step {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: transparent;
+    border: none;
+    color: #777; /* Simboluri albe */
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
+    
+    /* Aliniere fixă pe centru fără translateY */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Elimină efectul nativ de tap pe mobil */
+    line-height: 1;
+	transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Poziționare stânga / dreapta */
+.btn-minus { 
+    left: 4px; 
+}
+
+.btn-plus { 
+    right: 4px; 
+}
+
+/* Elimină complet orice stare/efect vizual la hover, focus sau apăsare (active) */
+.btn-step:hover,
+.btn-step:active {
+    background: transparent;
+    color: #ffffff;
+    outline: none;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
 }
 
 /* Dimensiunea și culoarea iconițelor din setări */
@@ -152,7 +218,6 @@ h1 {
 	fill: #ccc; /* Culoarea roz de accent a aplicației */
 	flex-shrink: 0;
 }
-
 
 input, select, button, textarea {
     /*-webkit-appearance: none;
@@ -225,6 +290,7 @@ div#eroare-setari {
 	padding: 25px 20px 24px 20px; /* Padding ajustat pentru siguranță jos */
 	background: #121212;
 	transition: background 0.3s ease;
+	box-sizing: border-box; /* OBLIGATORIU: include padding-ul în înălțimea totală de 100vh */
 }
 
 /* Containerul pentru Status (Stare + Subtitlu Pauză) */
@@ -271,6 +337,12 @@ div#eroare-setari {
 	line-height: 0.9;
 }
 
+@media (min-width: 960px) {
+	#timer { 
+		font-size: 36vw; 
+	}
+}
+
 /* Zona de jos */
 .bottom-container {
 	width: 100%;
@@ -307,6 +379,11 @@ div#eroare-setari {
 	color: white;
 	display: block;
 	line-height: 1;
+}
+
+/* 2. Containerul pentru butoanele de jos (Stop / Pauză) */
+.buttons-row, #page-timer button {
+    flex-shrink: 0 !important; /* Blochează strivirea sau ieșirea din ecran a butoanelor */
 }
 
 .buttons-row {
