@@ -201,7 +201,6 @@ h1 {
 }
 
 /* Elimină complet orice stare/efect vizual la hover, focus sau apăsare (active) */
-.btn-step:hover,
 .btn-step:active {
     background: transparent;
     color: #ffffff;
@@ -209,6 +208,18 @@ h1 {
     box-shadow: none;
     opacity: 1;
     transform: none;
+}
+
+/* DOAR pentru laptop/desktop cu mouse (previne blocarea pe mobil) */
+@media (hover: hover) {
+    .btn-step:hover {
+        background: transparent;
+		color: #ffffff;
+		outline: none;
+		box-shadow: none;
+		opacity: 1;
+		transform: none;
+    }
 }
 
 /* Dimensiunea și culoarea iconițelor din setări */
