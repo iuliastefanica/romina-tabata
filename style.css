@@ -266,18 +266,6 @@ input:-webkit-autofill:active {
 .setting-recovery input:active 
 	{border: 2px solid var(--color-recovery); /* Albastru */}
 
-
-div#eroare-setari {
-	color: var(--color-work); 
-	font-family: Archivo;
-	font-weight: 300;
-	font-size: 16px;
-	margin-top: 12px; 
-	display: none; 
-	text-align: center;
-	flex-shrink: 0; /* Împiedică strivirea mesajului */
-}
-
 /* Pagina completă a Timerului - Optimizată dinamic */
 #page-timer { 
 	display: none; 
