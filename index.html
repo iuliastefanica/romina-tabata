@@ -252,7 +252,18 @@
 			}
 
 			input.value = valoareCurenta;
+			
+			// Scoatem alte opțiuni active și o activăm doar pe aceasta
+			document.querySelectorAll(".input-stepper input").forEach(i => i.classList.remove("is-active"));
+			input.classList.add("is-active");
 		}
+		
+		// Dacă utilizatorul dă click în afara câmpurilor, stinge chenarul
+		document.addEventListener("click", (e) => {
+			if (!e.target.closest(".input-stepper")) {
+				document.querySelectorAll(".input-stepper input").forEach(i => i.classList.remove("is-active"));
+			}
+		});
 
 		// Protecție suplimentară pentru tastare manuală
 		document.querySelectorAll(".input-stepper input").forEach(input => {
@@ -270,6 +281,18 @@
 				if (isNaN(val) || val < minAdmis) {
 					input.value = minAdmis;
 				}
+			});
+			
+			input.addEventListener("blur", () => {
+				input.classList.remove("is-active");
+			});
+			
+			// Când dai click direct în orice câmp pentru a-l edita:
+			input.addEventListener("focus", () => {
+				// Scoatem clasa .is-active de pe orice alt câmp
+				document.querySelectorAll(".input-stepper input").forEach(i => i.classList.remove("is-active"));
+				// Adăugăm clasa pe câmpul curent focalizat
+				input.classList.add("is-active");
 			});
 		});
 		
