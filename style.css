@@ -76,7 +76,7 @@ h1 {
 }
 
 .setting-field { 
-	margin-bottom: 12px; 
+	margin-bottom: 10px; 
 	display: flex; 
 	justify-content: space-between; 
 	align-items: center; 
