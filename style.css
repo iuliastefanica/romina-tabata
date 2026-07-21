@@ -118,10 +118,11 @@ h1 {
 	flex-shrink: 0;
 }
 
+
 input, select, button, textarea {
-    -webkit-appearance: none;
+    /*-webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
+    appearance: none;*/
     outline: none !important;
     outline-style: none !important;
 }
@@ -134,7 +135,7 @@ input:active,
 select:active {
     outline: none !important;
     outline-width: 0 !important;
-    box-shadow: inset 0 0 0 2px var(--color-work) !important; /* Bordura ta interioară */
+	background-color: #333; /* O nuanță puțin mai deschisă la focus */
 }
 
 /* 3. Rețeta secretă: Elimină galbenul nativ generat de Autofill/Autocompletare */
@@ -152,16 +153,19 @@ input:-webkit-autofill:active {
 .setting-rest .setting-icon {fill: var(--color-rest); /* Verde */}
 .setting-recovery .setting-icon {fill: var(--color-recovery); /* Albastru */}
 
-.setting-pregatire input:focus,
-.setting-voce select:focus {border: 1px solid #ccc; /* Alb */}
-.setting-cicluri input:focus, .setting-seturi input:focus, .setting-workout input:focus {border: 1px solid var(--color-work); /* Culoarea roz de accent a aplicației */}
-.setting-rest input:focus {border: 1px solid var(--color-rest); /* Verde */}
-.setting-recovery input:focus {border: 1px solid var(--color-recovery); /* Albastru */}
+.setting-pregatire input:focus, .setting-voce select:focus,
+.setting-pregatire input:active, .setting-voce select:active 
+	{border: 1px solid #ccc; /* Alb */}
+.setting-cicluri input:focus, .setting-seturi input:focus, .setting-workout input:focus, 
+.setting-cicluri input:active, .setting-seturi input:active, .setting-workout input:active 
+	{border: 1px solid var(--color-work); /* Culoarea roz de accent a aplicației */}
+.setting-rest input:focus,
+.setting-rest input:active
+	{border: 1px solid var(--color-rest); /* Verde */}
+.setting-recovery input:focus, 
+.setting-recovery input:active 
+	{border: 1px solid var(--color-recovery); /* Albastru */}
 
-input:focus, select:focus {
-    outline: none;
-	background-color: #333; /* O nuanță puțin mai deschisă la focus */
-}
 
 /* Pagina completă a Timerului - Optimizată dinamic */
 #page-timer { 
