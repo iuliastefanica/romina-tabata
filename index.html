@@ -43,7 +43,11 @@
 					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
 					Pregătire (secunde):
 				</label>
-				<input type="number" id="inputPregatire" value="7" min="0" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputPregatire', -1)">−</button>
+					<input type="text" id="inputPregatire" value="7" min="0" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputPregatire', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Cicluri Totale (Diez #) -->
@@ -52,7 +56,11 @@
 					<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
 					Cicluri totale:
 				</label>
-				<input type="number" id="inputCicluri" value="4" min="1" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputCicluri', -1)">−</button>
+					<input type="text" id="inputCicluri" value="4" min="1" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputCicluri', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Exerciții per ciclu (Diez #) -->
@@ -61,7 +69,11 @@
 					<svg class="setting-icon" viewBox="0 0 24 24"><path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"/></svg>
 					Exerciții per ciclu:
 				</label>
-				<input type="number" id="inputRunde" value="10" min="1" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputRunde', -1)">−</button>
+					<input type="text" id="inputRunde" value="10" min="1" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputRunde', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Workout (Ceas) -->
@@ -70,7 +82,11 @@
 					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
 					Workout (secunde):
 				</label>
-				<input type="number" id="inputWorkout" value="30" min="5" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputWorkout', -1)">−</button>
+					<input type="text" id="inputWorkout" value="30" min="1" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputWorkout', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Rest (Ceas) -->
@@ -79,7 +95,11 @@
 					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
 					Rest (secunde):
 				</label>
-				<input type="number" id="inputRest" value="15" min="0" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputRest', -1)">−</button>
+					<input type="text" id="inputRest" value="15" min="0" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputRest', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Recovery (Ceas) -->
@@ -88,7 +108,11 @@
 					<svg class="setting-icon" viewBox="0 -960 960 960"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
 					Recovery (secunde):
 				</label>
-				<input type="number" id="inputRecovery" value="90" min="0" inputmode="numeric">
+				<div class="input-stepper">
+					<button type="button" class="btn-step btn-minus" onclick="stepValue('inputRecovery', -1)">−</button>
+					<input type="text" id="inputRecovery" value="90" min="1" inputmode="numeric" pattern="[0-9]*">
+					<button type="button" class="btn-step btn-plus" onclick="stepValue('inputRecovery', 1)">+</button>
+				</div>
 			</div>
 
 			<!-- Voce -->
@@ -102,10 +126,6 @@
 					<option value="engleza">Eng</option>
 				</select>
 			</div>
-		</div>
-		
-		<div id="eroare-setari">
-			Completează toate câmpurile!
 		</div>
 
 		<button id="btn-start" class="btn-start" onclick="comutaLaTimer(this.id)">
@@ -216,34 +236,42 @@
 				"PREPARE": setari.pregatire 
 		};
 		
-		function valideazaSetari() {
-			const inputuri = document.querySelectorAll("#page-settings input[type='number']");
-			const btnStart = document.getElementById("btn-start");
-			const eroareEl = document.getElementById("eroare-setari");
-			
-			let esteValid = true;
+		// Funcția apelată la apăsarea butoanelor + sau -
+		function stepValue(idInput, pas) {
+			const input = document.getElementById(idInput);
+			if (!input) return;
 
-			// Verificăm dacă există vreun câmp gol sau necompletat
-			inputuri.forEach(input => {
-				if (input.value.trim() === "") {
-					esteValid = false;
-				}
+			const minAdmis = parseInt(input.getAttribute("min")) || 0;
+			let valoareCurenta = parseInt(input.value) || 0;
+
+			valoareCurenta += pas;
+
+			// Blocăm scăderea sub limita minimă (0 sau 1)
+			if (valoareCurenta < minAdmis) {
+				valoareCurenta = minAdmis;
+			}
+
+			input.value = valoareCurenta;
+		}
+
+		// Protecție suplimentară pentru tastare manuală
+		document.querySelectorAll(".input-stepper input").forEach(input => {
+			
+			// Elimină caracterele nedorite (ex: - , . e) în timp ce tastezi
+			input.addEventListener("input", (e) => {
+				e.target.value = e.target.value.replace(/[^0-9]/g, '');
 			});
 
-			if (!esteValid) {
-				// Dezactivăm butonul și afișăm mesajul
-				btnStart.disabled = true;
-				btnStart.style.opacity = "0.5";
-				btnStart.style.cursor = "not-allowed";
-				eroareEl.style.display = "block";
-			} else {
-				// Activăm butonul și ascundem mesajul
-				btnStart.disabled = false;
-				btnStart.style.opacity = "1";
-				btnStart.style.cursor = "pointer";
-				eroareEl.style.display = "none";
-			}
-		}
+			// La părăsirea câmpului, dacă e gol sau mai mic decât minimul, resetează la minim
+			input.addEventListener("blur", () => {
+				const minAdmis = parseInt(input.getAttribute("min")) || 0;
+				let val = parseInt(input.value);
+
+				if (isNaN(val) || val < minAdmis) {
+					input.value = minAdmis;
+				}
+			});
+		});
 		
 		function genereazaPlanAntrenament() {			
 			// Calculăm durata totală pentru a porni de la ea în jos
@@ -372,27 +400,6 @@
 		}
 
         function comutaLaTimer(idButon) {
-		
-			const eroareEl = document.getElementById("eroare-setari");
-			const inputuri = document.querySelectorAll("#page-settings input[type='number']");
-			let esteValid = true;
-
-			// Verificăm dacă vreun câmp este necompletat / gol
-			inputuri.forEach(input => {
-				if (input.value.trim() === "") {
-					esteValid = false;
-				}
-			});
-
-			// Dacă există câmpuri necompletate, afișăm mesajul și OPRIM pornirea timerului
-			if (!esteValid) {
-				if (eroareEl) eroareEl.style.display = "block";
-				return; // Oprește executarea funcției aici
-			}
-
-			// Dacă toate câmpurile sunt valide, ascundem mesajul și continuăm
-			if (eroareEl) eroareEl.style.display = "none";
-		
 		
             ajusteazaInaltimeEcran();
             activeazaWakeLock();
