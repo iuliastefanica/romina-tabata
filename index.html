@@ -536,6 +536,8 @@
 			
 			document.getElementById("sub-status").style.visibility = "hidden";
 			document.getElementById("sub-status").classList.remove("blink-icon");
+			
+			document.getElementById("page-timer").style.background = "";
 
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(ruleazaCronometru, 1000);
@@ -764,6 +766,8 @@
 			
 			document.getElementById("btn-skip").style.display = "none";
 			document.getElementById("btn-back").style.display = "none";
+			
+			document.getElementById("page-timer").style.background = "#121212";
         }
 
         document.addEventListener('visibilitychange', async () => {
