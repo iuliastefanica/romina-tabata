@@ -71,6 +71,7 @@ h1 {
 #page-settings {
     display: flex;
     flex-direction: column;   
+	justify-content: space-between;
     height: 100vh; 
     height: 100dvh; 
     box-sizing: border-box;
@@ -95,16 +96,17 @@ h1 {
     }
 }
 
-/* Zona care conține Logo, Titlu și Câmpuri (aceasta va face scroll dacă nu are loc) */
 .settings-content {
-    flex: 1;
-    overflow-y: auto; /* Activează scroll-ul DOAR pentru câmpuri dacă ecranul e prea mic */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrează câmpurile pe verticală în spațiul dintre titlu și buton */
+    flex: 1; /* Ocupă TOT spațiul liber dintre titlu și buton */
+	 overflow-y: auto; /* Activează scroll-ul DOAR pentru câmpuri dacă ecranul e prea mic */
     -webkit-overflow-scrolling: touch; /* Scroll fluent pe iPhone */
-    padding-bottom: 10px;
 }
 
 /* Stil pentru logo ca să nu devină uriaș pe ecrane mari */
-.settings-content img {
+.settings-title img {
     max-height: 50px; /* Limitează înălțimea logo-ului */
     width: auto;
     display: block;
