@@ -67,31 +67,32 @@ h1 {
 	font-weight: 700;
 }
 
-/* Pagina de Setări */
-/*#page-settings {
-	padding: 20px; 
-	width: 90%;
-	max-width: 380px; 
-	display: block;
-}*/
-
 /* Containerul principal al paginii de setări */
 #page-settings {
     display: flex;
-    flex-direction: column;
-    
-    /* 100dvh se adaptează exact la spațiul util din browserul mobil */
+    flex-direction: column;   
     height: 100vh; 
     height: 100dvh; 
-    
     box-sizing: border-box;
-    padding: 24px 16px;
-    
+    padding: 24px 16px;    
     /* Adăugăm padding pentru bara de gesturi de jos (iPhone/Android) */
     padding-bottom: calc(24px + env(safe-area-inset-bottom, 12px));
-    
-    /* Prevenim ca pagina întreagă să depășească ecranul */
     overflow: hidden; 
+}
+
+@media screen and (min-width: 768px) {
+	#page-settings {
+        display: block;
+        width: 100%;
+        max-width: 480px; /* Sau lățimea dorită pe desktop */
+        margin: 0 auto;
+        padding: 32px;
+        background: #1e1e1e; /* Opțional: îi poți da un card look pe desktop */
+        border-radius: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+		height: auto;
+		overflow: hidden;
+    }
 }
 
 /* Zona care conține Logo, Titlu și Câmpuri (aceasta va face scroll dacă nu are loc) */
@@ -290,7 +291,7 @@ div#eroare-setari {
 	margin-top: 12px; 
 	display: none; 
 	text-align: center;
-	flex-shrink: 0; /* Împiedică strivirea mesajului */
+	flex-shrink: 0;
 }
 
 /* Pagina completă a Timerului - Optimizată dinamic */
@@ -302,10 +303,15 @@ div#eroare-setari {
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	padding: 25px 20px 24px 20px; /* Padding ajustat pentru siguranță jos */
-	background: #121212;
-	transition: background 0.3s ease;
-	box-sizing: border-box; /* OBLIGATORIU: include padding-ul în înălțimea totală de 100vh */
+	padding: 25px 20px 24px 20px; 
+	/*background: #121212;*/
+	background: linear-gradient(
+        180deg, 
+        color-mix(in srgb, var(--current-color) 25%, transparent) 0%,
+        #121212 90%                                        
+    );
+	transition: background 0.5s ease;
+	box-sizing: border-box;
 }
 
 /* Containerul pentru Status (Stare + Subtitlu Pauză) */
@@ -352,7 +358,7 @@ div#eroare-setari {
 	line-height: 0.9;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 768px) {
 	#timer { 
 		font-size: 36vw; 
 	}
