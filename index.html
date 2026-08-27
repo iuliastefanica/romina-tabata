@@ -479,7 +479,7 @@
 		}
 
         function comutaLaTimer(idButon) {
-		
+			deblocheazaAudioiOS();
             ajusteazaInaltimeEcran();
             activeazaWakeLock();
             
@@ -680,6 +680,18 @@
             actualizeazaInterfata();
         }
 
+		function deblocheazaAudioiOS() {
+		    const audioBip = document.getElementById("audioBip");
+		    
+		    // Play scurt silențios/silent reset pentru deblocare pe iOS
+		    audioBip.play().then(() => {
+		        audioBip.pause();
+		        audioBip.currentTime = 0;
+		    }).catch(err => {
+		        console.log("Așteptare deblocare audio iOS:", err);
+		    });
+		}
+
         function ruleazaCronometru() {
             if (esteInPauza) return; 
 
@@ -694,7 +706,8 @@
                 if (timpRamas <= 3) {
                     const audio = document.getElementById("audioBip");
                     audio.currentTime = 0;
-                    audio.play();
+                    //audio.play();
+					audio.play().catch(e => console.log("Eroare redare bip:", e));
                 }
             } else {
                 schimbaStarea();
