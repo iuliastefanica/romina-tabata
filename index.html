@@ -239,6 +239,47 @@
 		
 		const STORAGE_KEY = "romina_tabata_settings";
 		
+		// Context Audio Web Nativ
+		let audioCtx = null;
+		
+		function initAudioContext() {
+			if (!audioCtx) {
+				const AudioContext = window.AudioContext || window.webkitAudioContext;
+				if (AudioContext) {
+					audioCtx = new AudioContext();
+				}
+			}
+			if (audioCtx && audioCtx.state === 'suspended') {
+				audioCtx.resume();
+			}
+		}
+
+		// Funcție care generează un bip perfect ritmic
+		function redaBipNativ() {
+			initAudioContext();
+			if (!audioCtx) return;
+
+			const osc = audioCtx.createOscillator();
+			const gain = audioCtx.createGain();
+
+			// Undă sinusoidală curată (specifică bipului digital clasic)
+			osc.type = 'sine';
+			
+			// Frecvența de 1020 Hz reproduce tonul exact al cronometrelor digitale
+			osc.frequency.setValueAtTime(1700, audioCtx.currentTime);
+
+			// Volumul și oprirea bruscă (70 milisecunde durată)
+			gain.gain.setValueAtTime(1, audioCtx.currentTime);
+			gain.gain.setValueAtTime(1, audioCtx.currentTime + 0.065);
+			gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.07);
+
+			osc.connect(gain);
+			gain.connect(audioCtx.destination);
+
+			osc.start(audioCtx.currentTime);
+			osc.stop(audioCtx.currentTime + 0.15);
+		}
+		
 		// -------------------------------------------------------------
 		// FUNCȚII LOCALSTORAGE (SALVARE ȘI ÎNCĂRCARE SETĂRI)
 		// -------------------------------------------------------------
@@ -479,10 +520,13 @@
 		}
 
         function comutaLaTimer(idButon) {
-			deblocheazaAudioiOS();
-            ajusteazaInaltimeEcran();
+			//deblocheazaAudioiOS();
+            // Deblocăm și inițializăm Web Audio API pentru iOS
+			initAudioContext();
+
+			ajusteazaInaltimeEcran();
             activeazaWakeLock();
-            
+			
 			if (idButon === "btn-start" || idButon === "btn-stop") {
 				
 					setari = {
@@ -704,10 +748,10 @@
                 actualizeazaInterfata();
                 
                 if (timpRamas <= 3) {
-                    const audio = document.getElementById("audioBip");
-                    audio.currentTime = 0;
-                    //audio.play();
-					audio.play().catch(e => console.log("Eroare redare bip:", e));
+                    //const audio = document.getElementById("audioBip");
+                    //audio.currentTime = 0;
+					//audio.play().catch(e => console.log("Eroare redare bip:", e));
+					redaBipNativ();
                 }
             } else {
                 schimbaStarea();
